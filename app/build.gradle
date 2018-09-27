@@ -23,6 +23,8 @@ dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation 'org.eclipse.jetty:jetty-server:9.2.26.v20180806'
     implementation 'org.eclipse.jetty:jetty-servlet:9.2.26.v20180806'
+    implementation 'com.google.code.gson:gson:2.8.5'
+    implementation 'com.googlecode.libphonenumber:libphonenumber:8.9.14'
     implementation 'org.slf4j:slf4j-simple:1.7.25'
     implementation 'androidx.appcompat:appcompat:1.0.0'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
