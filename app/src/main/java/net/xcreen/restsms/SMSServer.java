@@ -3,21 +3,30 @@ package net.xcreen.restsms;
 import android.util.Log;
 
 import org.eclipse.jetty.server.Server;
+import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHandler;
+import org.eclipse.jetty.servlet.ServletHolder;
+
+import javax.servlet.MultipartConfigElement;
 
 public class SMSServer {
 
     private int port = 8081;
     private Server jettyServer;
 
-    public void start() throws Exception{
+    public void start(String tmpDir) throws Exception{
         Log.i("SMS-Server", "Starting Server...");
 
         //Setup Jetty
         jettyServer = new Server(port);
-        ServletHandler servletHandler = new ServletHandler();
-        servletHandler.addServletWithMapping(SMSServlet.class, "/send");
-        jettyServer.setHandler(servletHandler);
+
+        //Sms-Servlet
+        ServletContextHandler servletContextHandler = new ServletContextHandler();
+        ServletHolder smsServletHolder = new ServletHolder(new SMSServlet());
+        smsServletHolder.getRegistration().setMultipartConfig(new MultipartConfigElement(tmpDir));
+        servletContextHandler.addServlet(smsServletHolder, "/send");
+
+        jettyServer.setHandler(servletContextHandler);
 
         //Start Jetty
         jettyServer.start();
