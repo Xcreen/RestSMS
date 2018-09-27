@@ -1,8 +1,11 @@
 package net.xcreen.restsms;
 
 import androidx.fragment.app.Fragment;
+
+import android.content.Context;
+import android.os.Build;
 import android.os.Bundle;
-import android.util.Log;
+import android.telephony.TelephonyManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -29,6 +32,29 @@ public class HomeFragment extends Fragment {
         toggleServerBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                //Check if Device has a Sim-Card
+                try {
+                    TelephonyManager telephonyManager = (TelephonyManager) getContext().getSystemService(Context.TELEPHONY_SERVICE);
+                    int primarySim = telephonyManager.getSimState();
+                    int secondarySim = TelephonyManager.SIM_STATE_ABSENT;
+                    if (Build.VERSION.SDK_INT >= 26) {
+                        primarySim = telephonyManager.getSimState(0);
+                        secondarySim = telephonyManager.getSimState(1);
+                    }
+                    if (primarySim != TelephonyManager.SIM_STATE_READY) {
+                        if (secondarySim != TelephonyManager.SIM_STATE_READY) {
+                            //Device has not Sim-Card which is ready
+                            Toast.makeText(getContext(), getResources().getText(R.string.invalid_sim), Toast.LENGTH_SHORT).show();
+                            return;
+                        }
+                    }
+                }
+                catch (Exception ex){
+                    ex.printStackTrace();
+                    Toast.makeText(getContext(), getResources().getText(R.string.invalid_sim), Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
                 //Check if Server is running
                 if(appContext.smsServer.isRunning() && !appContext.smsServer.isStopping()){
                     //Stop Server
