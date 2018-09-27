@@ -38,7 +38,8 @@
             <FrameLayout
                 android:id="@+id/main_framelayout"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent" />
+                android:layout_height="match_parent"
+                android:padding="@dimen/fragment_padding"/>
 
         </LinearLayout>
 
