@@ -24,9 +24,49 @@ public class SMSServer {
         jettyServer.join();
     }
 
+    /**
+     * Stopping Jetty-Server
+     * @throws Exception - Jetty Exception
+     */
     public void stop() throws Exception{
-        Log.i("SMS-Server", "Stopping Server...");
-        jettyServer.stop();
+        if(jettyServer != null) {
+            Log.i("SMS-Server", "Stopping Server...");
+            jettyServer.stop();
+        }
+    }
+
+    /**
+     * Checks if the Jetty is running
+     * @return boolean - true when server is running/starting/stopping, false otherwise
+     */
+    public boolean isRunning(){
+        if(jettyServer != null){
+            if(jettyServer.isRunning()){
+                return true;
+            }
+            else if(jettyServer.isStopping()){
+                return true;
+            }
+            else{
+                return false;
+            }
+        }
+        else{
+            return false;
+        }
+    }
+
+    /**
+     * Checks if Jetty is stopping
+     * @return boolean - True when server is stopping
+     */
+    public boolean isStopping(){
+        if(jettyServer != null) {
+            return jettyServer.isStopping();
+        }
+        else{
+            return false;
+        }
     }
 
     /**

@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.Toast;
 
 public class HomeFragment extends Fragment {
 
@@ -28,19 +29,51 @@ public class HomeFragment extends Fragment {
         toggleServerBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                new Thread(new Runnable() {
-                    @Override
-                    public void run() {
-                        try {
-                            appContext.smsServer.start();
+                //Check if Server is running
+                if(appContext.smsServer.isRunning() && !appContext.smsServer.isStopping()){
+                    //Stop Server
+                    new Thread(new Runnable() {
+                        @Override
+                        public void run() {
+                            try {
+                                appContext.smsServer.stop();
+                            }
+                            catch (Exception ex){
+                                ex.printStackTrace();
+                            }
                         }
-                        catch (Exception ex){
-                            ex.printStackTrace();
+                    }).start();
+                    //Switch Button-Text
+                    toggleServerBtn.setText(getResources().getText(R.string.start_server));
+                }
+                else if(!appContext.smsServer.isStopping()){
+                    //Start Server
+                    new Thread(new Runnable() {
+                        @Override
+                        public void run() {
+                            try {
+                                appContext.smsServer.start();
+                            }
+                            catch (Exception ex){
+                                ex.printStackTrace();
+                                Toast.makeText(getContext(), getResources().getText(R.string.server_failed_to_start), Toast.LENGTH_SHORT).show();
+                            }
                         }
-                    }
-                }).start();
+                    }).start();
+                    //Switch Button-Text
+                    toggleServerBtn.setText(getResources().getText(R.string.stop_server));
+                }
+                else{
+                    //Server is stopping
+                    Toast.makeText(getContext(), getResources().getText(R.string.server_is_stopping), Toast.LENGTH_SHORT).show();
+                }
             }
         });
+
+        //Check Server is running, to set correct Button-Text
+        if(appContext.smsServer.isRunning()){
+            toggleServerBtn.setText(getResources().getText(R.string.stop_server));
+        }
 
         return rootView;
     }

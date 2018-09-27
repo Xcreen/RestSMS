@@ -12,4 +12,6 @@
 
     <string name="start_server">Start Server</string>
     <string name="stop_server">Stop Server</string>
+    <string name="server_is_stopping">Server is shutting down. Please wait.</string>
+    <string name="server_failed_to_start">Server failed to start!</string>
 </resources>
