@@ -78,7 +78,7 @@ public class HomeFragment extends Fragment {
                         @Override
                         public void run() {
                             try {
-                                appContext.smsServer.start();
+                                appContext.smsServer.start(getContext().getCacheDir().getAbsolutePath());
                             }
                             catch (Exception ex){
                                 ex.printStackTrace();
