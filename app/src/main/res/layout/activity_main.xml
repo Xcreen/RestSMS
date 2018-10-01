@@ -30,7 +30,7 @@
                     android:id="@+id/toolbar"
                     android:layout_width="match_parent"
                     android:layout_height="?attr/actionBarSize"
-                    android:background="?attr/colorPrimary"
+                    android:background="@color/colorDarkBlack"
                     app:popupTheme="@style/AppTheme.PopupOverlay" />
 
             </com.google.android.material.appbar.AppBarLayout>
@@ -39,18 +39,22 @@
                 android:id="@+id/main_framelayout"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:background="@color/colorLightBlack"
                 android:padding="@dimen/fragment_padding"/>
 
         </LinearLayout>
 
         <com.google.android.material.navigation.NavigationView
             android:id="@+id/nav_view"
+            android:background="@color/colorLightBlack"
             android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:layout_gravity="start"
             android:fitsSystemWindows="true"
             app:headerLayout="@layout/nav_header_main"
-            app:menu="@menu/activity_main_drawer" />
+            app:menu="@menu/activity_main_drawer"
+            app:itemIconTint="@color/colorWhite"
+            app:itemTextColor="@color/colorWhite"/>
 
     </androidx.drawerlayout.widget.DrawerLayout>
 </RelativeLayout>
