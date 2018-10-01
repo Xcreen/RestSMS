@@ -39,12 +39,14 @@ public class SMSServlet extends HttpServlet {
         //Check if post-parameters exists
         if(message == null || phoneno == null){
             //Return Failing JSON
+            Log.i("SMS-Servlet", "Invalid message or phoneno");
             response.getWriter().println(gson.toJson(new SMSResponse(false, "message or phoneno parameter are missing!")));
             return;
         }
 
         //Check if message is valid
         if(message.length() < 1 || message.length() > 160){
+            Log.i("SMS-Servlet", "Invalid message (message-length: " + message.length() + ")");
             //Return Failing JSON
             response.getWriter().println(gson.toJson(new SMSResponse(false, "message should be between 1 and 160 chars!")));
             return;
@@ -56,6 +58,8 @@ public class SMSServlet extends HttpServlet {
             phoneNumber = phoneUtil.parse(phoneno, null);
         }
         catch (Exception ex) {
+            Log.i("SMS-Servlet", "Failed to parse phoneno");
+            ex.printStackTrace();
             //Return Failing JSON
             response.getWriter().println(gson.toJson(new SMSResponse(false, "Invalid phoneno (make sure you include the + with Country-Code)!")));
             return;
