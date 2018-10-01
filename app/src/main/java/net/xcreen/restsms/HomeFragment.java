@@ -17,9 +17,9 @@ import android.widget.Toast;
 
 public class HomeFragment extends Fragment {
 
-    Button toggleServerBtn;
-    AppContext appContext;
-    int SMS_PERMISSION_REQUEST = 100;
+    private Button toggleServerBtn;
+    private AppContext appContext;
+    private int SMS_PERMISSION_REQUEST = 100;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
