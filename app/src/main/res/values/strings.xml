@@ -2,10 +2,7 @@
     <string name="app_name">RestSMS</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
-    <string name="nav_header_title">Android Studio</string>
-    <string name="nav_header_subtitle">android.studio@android.com</string>
-    <string name="nav_header_desc">Navigation header</string>
-
+    <string name="nav_app_by">by Xcreen</string>
     <string name="nav_item_home">Home</string>
     <string name="nav_item_settings">Settings</string>
     <string name="nav_item_about">About</string>
