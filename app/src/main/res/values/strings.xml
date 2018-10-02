@@ -13,4 +13,8 @@
     <string name="server_failed_to_start">Server failed to start!</string>
     <string name="invalid_sim">Sim-Card is missing or not ready to send sms!</string>
     <string name="no_sms_permission">SMS-Permission is required to run the server!</string>
+
+    <string name="about_about_me">About Me</string>
+    <string name="about_app_information">App-Information</string>
+    <string name="about_third_party_librarys">Third-Party Librarys</string>
 </resources>

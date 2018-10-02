@@ -3,11 +3,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".AboutFragment">
+    android:padding="@dimen/fragment_padding"
+    tools:context=".AboutMeFragment">
 
-    <androidx.viewpager.widget.ViewPager
-        android:id="@+id/about_view_pager"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
-
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="TextView" />
 </FrameLayout>

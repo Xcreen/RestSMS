@@ -22,6 +22,7 @@
             android:orientation="vertical">
 
             <com.google.android.material.appbar.AppBarLayout
+                android:id="@+id/appbar_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:theme="@style/AppTheme.AppBarOverlay">
@@ -39,8 +40,7 @@
                 android:id="@+id/main_framelayout"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:background="@color/colorLightBlack"
-                android:padding="@dimen/fragment_padding"/>
+                android:background="@color/colorLightBlack" />
 
         </LinearLayout>
 
