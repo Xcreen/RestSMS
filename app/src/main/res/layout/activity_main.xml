@@ -53,8 +53,8 @@
             android:fitsSystemWindows="true"
             app:headerLayout="@layout/nav_header_main"
             app:menu="@menu/activity_main_drawer"
-            app:itemIconTint="@color/colorWhite"
-            app:itemTextColor="@color/colorWhite"/>
+            app:itemIconTint="@drawable/navigation_view_drawer_item"
+            app:itemTextColor="@drawable/navigation_view_drawer_item" />
 
     </androidx.drawerlayout.widget.DrawerLayout>
 </RelativeLayout>
