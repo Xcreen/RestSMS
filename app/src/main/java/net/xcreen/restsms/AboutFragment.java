@@ -64,8 +64,8 @@ public class AboutFragment extends Fragment {
     }
 
     @Override
-    public void onStop() {
-        super.onStop();
+    public void onDestroyView() {
+        super.onDestroyView();
         //Remove Tab-Layout
         mainAppBarLayout.removeView(tabLayout);
     }
