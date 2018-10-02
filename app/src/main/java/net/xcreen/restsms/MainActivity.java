@@ -42,13 +42,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        //Set Home Fragment
-        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
-        try {
-            Fragment homeFragment = HomeFragment.class.newInstance();
-            fragmentTransaction.replace(R.id.main_framelayout, homeFragment).commit();
-        } catch (Exception ex) {
-            ex.printStackTrace();
+        //Dont replace Fragment, on orientation-change
+        if(savedInstanceState == null) {
+            //Set Home Fragment
+            FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+            try {
+                Fragment homeFragment = HomeFragment.class.newInstance();
+                fragmentTransaction.replace(R.id.main_framelayout, homeFragment).commit();
+            } catch (Exception ex) {
+                ex.printStackTrace();
+            }
         }
     }
 
