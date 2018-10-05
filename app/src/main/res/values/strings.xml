@@ -17,4 +17,9 @@
     <string name="about_about_me">About Me</string>
     <string name="about_app_information">App-Information</string>
     <string name="about_third_party_librarys">Third-Party Librarys</string>
+
+    <string name="about_me_name">Xcreen (David R.)</string>
+    <string name="about_me_text">I´m a Fullstack Developer and focused on Java/Android/Lucee and Js-Applications.\nIf you like, you could buy me a coffee ☕ 😊.</string>
+    <string name="about_me_donate">Donate via Paypal</string>
+    <string name="about_me_github">Github Profile</string>
 </resources>
