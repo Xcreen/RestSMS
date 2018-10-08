@@ -22,4 +22,25 @@
     <string name="about_me_text">I´m a Fullstack Developer and focused on Java/Android/Lucee and Js-Applications.\nIf you like, you could buy me a coffee ☕ 😊.</string>
     <string name="about_me_donate">Donate via Paypal</string>
     <string name="about_me_github">Github Profile</string>
+
+    <string name="about_app_version_code">Version-Code:</string>
+    <string name="about_app_version">Version:</string>
+    <string name="about_app_sms_permission">Has SMS-Permission:</string>
+    <string name="about_app_sim1_status">Sim-State (1):</string>
+    <string name="about_app_sim2_status">Sim-State (2):</string>
+    <string name="about_app_default_sms_app">Default SMS-App:</string>
+
+    <string name="error_sim_absent">No Card available!</string>
+    <string name="error_sim_pin">Sim-PIN required!</string>
+    <string name="error_sim_puk">PUK required!</string>
+    <string name="error_sim_network_pin">Network-Pin required!</string>
+    <string name="error_sim_ready">Ready!</string>
+    <string name="error_sim_not_ready">Not Ready!</string>
+    <string name="error_sim_disabled">Permanently disabled!</string>
+    <string name="error_sim_card_error">Card-Error!</string>
+    <string name="error_sim_restricted">Not usable because of Carrier-Restriction!</string>
+
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+    <string name="unknown">---</string>
 </resources>

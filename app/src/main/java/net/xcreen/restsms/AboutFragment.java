@@ -85,7 +85,7 @@ class FragmentPageAdapter extends FragmentStatePagerAdapter {
             case 0:
                 return new AboutMeFragment();
             case 1:
-                return new AboutMeFragment();
+                return new AboutAppFragment();
             case 2:
                 return new AboutThirdPartyLibrarysFragment();
             default:
