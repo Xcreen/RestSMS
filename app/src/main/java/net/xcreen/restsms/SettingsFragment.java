@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -24,8 +25,8 @@ public class SettingsFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.fragment_settings, container, false);
 
         final SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getContext());
-
         final EditText portEditText = rootView.findViewById(R.id.settings_port_edittext);
+        final CheckBox openBrowserCheckBox = rootView.findViewById(R.id.settings_open_browser_checkbox);
 
         Button saveBtn = rootView.findViewById(R.id.settings_save_btn);
         saveBtn.setOnClickListener(new View.OnClickListener() {
@@ -57,6 +58,10 @@ public class SettingsFragment extends Fragment {
                     Toast.makeText(v.getContext(), getResources().getText(R.string.setting_invalid_port), Toast.LENGTH_SHORT).show();
                 }
 
+                //Save Open-Browser after Server-Start
+                editor.putBoolean("open_browser_serverstart", openBrowserCheckBox.isChecked());
+                editor.apply();
+
                 if(saved){
                     Toast.makeText(v.getContext(), getResources().getText(R.string.setting_saved), Toast.LENGTH_SHORT).show();
                 }
@@ -65,6 +70,11 @@ public class SettingsFragment extends Fragment {
 
         //Set current Port
         portEditText.setText(String.valueOf(sharedPref.getInt("server_port", 8080)));
+
+        //Set current "Open-Browser after Server-Start"-Option
+        if(sharedPref.getBoolean("open_browser_serverstart", true)){
+            openBrowserCheckBox.setChecked(true);
+        }
 
         return rootView;
     }

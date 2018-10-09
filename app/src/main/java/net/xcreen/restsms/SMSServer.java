@@ -83,6 +83,19 @@ public class SMSServer {
     }
 
     /**
+     * Check if Jetty is starting
+     * @return boolean - True when server is starting
+     */
+    public boolean isStarting(){
+        if(jettyServer != null){
+            return jettyServer.isStarting();
+        }
+        else{
+            return false;
+        }
+    }
+
+    /**
      * Set Server-Port
      * @param port - Server-Port
      */

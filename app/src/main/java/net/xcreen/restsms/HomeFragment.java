@@ -5,8 +5,10 @@ import androidx.fragment.app.Fragment;
 
 import android.Manifest;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -83,8 +85,9 @@ public class HomeFragment extends Fragment {
                         final String cacheDir = v.getContext().getCacheDir().getAbsolutePath();
 
                         //Set Port
-                        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(v.getContext());
-                        appContext.smsServer.setPort(sharedPref.getInt("server_port", 8080));
+                        final SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(v.getContext());
+                        final int serverPort = sharedPref.getInt("server_port", 8080);
+                        appContext.smsServer.setPort(serverPort);
 
                         //Start Server
                         new Thread(new Runnable() {
@@ -123,6 +126,29 @@ public class HomeFragment extends Fragment {
 
                         //Switch Button-Text
                         toggleServerBtn.setText(getResources().getText(R.string.stop_server));
+
+                        new Thread(new Runnable() {
+                            @Override
+                            public void run() {
+                                //Wait till server is started
+                                while(appContext.smsServer.isStarting()){
+                                    try{
+                                        Thread.sleep(100);
+                                    }
+                                    catch (Exception ex){
+                                        ex.printStackTrace();
+                                    }
+                                }
+                                //Check if browser should be opened
+                                if(sharedPref.getBoolean("open_browser_serverstart", true)){
+                                    //Open Browser
+                                    String serverUrl = "http://127.0.0.1:" + serverPort;
+                                    Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(serverUrl));
+                                    startActivity(browserIntent);
+                                }
+                            }
+                        }).start();
+
                     } else {
                         //Server is stopping
                         Toast.makeText(v.getContext(), getResources().getText(R.string.server_is_stopping), Toast.LENGTH_LONG).show();
