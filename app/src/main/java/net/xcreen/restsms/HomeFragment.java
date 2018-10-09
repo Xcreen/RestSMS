@@ -17,6 +17,8 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.Toast;
 
+import java.net.BindException;
+
 public class HomeFragment extends Fragment {
 
     private Button toggleServerBtn;
@@ -52,13 +54,13 @@ public class HomeFragment extends Fragment {
                         if (primarySim != TelephonyManager.SIM_STATE_READY) {
                             if (secondarySim != TelephonyManager.SIM_STATE_READY) {
                                 //Device has not Sim-Card which is ready
-                                Toast.makeText(v.getContext(), getResources().getText(R.string.invalid_sim), Toast.LENGTH_SHORT).show();
+                                Toast.makeText(v.getContext(), getResources().getText(R.string.invalid_sim), Toast.LENGTH_LONG).show();
                                 return;
                             }
                         }
                     } catch (Exception ex) {
                         ex.printStackTrace();
-                        Toast.makeText(v.getContext(), getResources().getText(R.string.invalid_sim), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(v.getContext(), getResources().getText(R.string.invalid_sim), Toast.LENGTH_LONG).show();
                         return;
                     }
 
@@ -90,9 +92,31 @@ public class HomeFragment extends Fragment {
                             public void run() {
                                 try {
                                     appContext.smsServer.start(cacheDir);
-                                } catch (Exception ex) {
+                                }
+                                catch(BindException bindEx){
+                                    getActivity().runOnUiThread(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            try {
+                                                Toast.makeText(getContext(), getResources().getText(R.string.server_failed_bindex), Toast.LENGTH_LONG).show();
+                                                toggleServerBtn.setText(getResources().getText(R.string.start_server));
+                                            }
+                                            catch (Exception ex){ ex.printStackTrace(); }
+                                        }
+                                    });
+                                }
+                                catch (Exception ex) {
                                     ex.printStackTrace();
-                                    Toast.makeText(getContext(), getResources().getText(R.string.server_failed_to_start), Toast.LENGTH_SHORT).show();
+                                    getActivity().runOnUiThread(new Runnable() {
+                                        @Override
+                                        public void run() {
+                                            try {
+                                                Toast.makeText(getContext(), getResources().getText(R.string.server_failed_to_start), Toast.LENGTH_LONG).show();
+                                                toggleServerBtn.setText(getResources().getText(R.string.start_server));
+                                            }
+                                            catch (Exception ex){ ex.printStackTrace(); }
+                                        }
+                                    });
                                 }
                             }
                         }).start();
@@ -101,7 +125,7 @@ public class HomeFragment extends Fragment {
                         toggleServerBtn.setText(getResources().getText(R.string.stop_server));
                     } else {
                         //Server is stopping
-                        Toast.makeText(v.getContext(), getResources().getText(R.string.server_is_stopping), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(v.getContext(), getResources().getText(R.string.server_is_stopping), Toast.LENGTH_LONG).show();
                     }
                 }
                 else{

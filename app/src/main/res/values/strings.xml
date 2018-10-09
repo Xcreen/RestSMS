@@ -11,6 +11,7 @@
     <string name="stop_server">Stop Server</string>
     <string name="server_is_stopping">Server is shutting down. Please wait.</string>
     <string name="server_failed_to_start">Server failed to start!</string>
+    <string name="server_failed_bindex">Server can not run on this port! (Bind-Exception)</string>
     <string name="invalid_sim">Sim-Card is missing or not ready to send sms!</string>
     <string name="no_sms_permission">SMS-Permission is required to run the server!</string>
 
