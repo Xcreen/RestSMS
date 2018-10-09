@@ -4,6 +4,6 @@ import android.app.Application;
 
 public class AppContext extends Application {
 
-    SMSServer smsServer = new SMSServer();
+    public SMSServer smsServer = new SMSServer();
 
 }

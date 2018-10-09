@@ -1,4 +1,4 @@
-package net.xcreen.restsms;
+package net.xcreen.restsms.fragments;
 
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
@@ -18,6 +18,9 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.Toast;
+
+import net.xcreen.restsms.AppContext;
+import net.xcreen.restsms.R;
 
 import java.net.BindException;
 

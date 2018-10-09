@@ -1,4 +1,4 @@
-package net.xcreen.restsms;
+package net.xcreen.restsms.fragments;
 
 import android.content.Context;
 import android.net.Uri;
@@ -14,6 +14,8 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
+
+import net.xcreen.restsms.R;
 
 import java.util.ArrayList;
 

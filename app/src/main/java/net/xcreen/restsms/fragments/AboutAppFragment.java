@@ -1,4 +1,4 @@
-package net.xcreen.restsms;
+package net.xcreen.restsms.fragments;
 
 import android.Manifest;
 import android.content.Context;
@@ -15,6 +15,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
+import net.xcreen.restsms.BuildConfig;
+import net.xcreen.restsms.R;
 
 public class AboutAppFragment extends Fragment {
 

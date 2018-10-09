@@ -1,4 +1,4 @@
-package net.xcreen.restsms;
+package net.xcreen.restsms.fragments;
 
 import androidx.fragment.app.Fragment;
 
@@ -12,6 +12,8 @@ import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Toast;
+
+import net.xcreen.restsms.R;
 
 public class SettingsFragment extends Fragment {
 

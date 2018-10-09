@@ -12,6 +12,10 @@ import androidx.fragment.app.FragmentTransaction;
 
 import android.view.MenuItem;
 
+import net.xcreen.restsms.fragments.AboutFragment;
+import net.xcreen.restsms.fragments.HomeFragment;
+import net.xcreen.restsms.fragments.SettingsFragment;
+
 import org.slf4j.impl.SimpleLogger;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
