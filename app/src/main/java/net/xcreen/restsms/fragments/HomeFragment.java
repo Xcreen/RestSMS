@@ -13,7 +13,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.telephony.TelephonyManager;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,6 +21,7 @@ import android.widget.Toast;
 
 import net.xcreen.restsms.AppContext;
 import net.xcreen.restsms.R;
+import net.xcreen.restsms.server.ServerLogging;
 
 import java.net.BindException;
 
@@ -41,6 +41,9 @@ public class HomeFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.fragment_home, container, false);
 
         appContext = (AppContext) getActivity().getApplication();
+        //Set Server-Logging for Server
+        ServerLogging serverLogging = new ServerLogging(getContext().getFilesDir().getAbsolutePath());
+        appContext.smsServer.setServerLogging(serverLogging);
 
         toggleServerBtn = rootView.findViewById(R.id.toggle_server_btn);
         toggleServerBtn.setOnClickListener(new View.OnClickListener() {
@@ -144,7 +147,6 @@ public class HomeFragment extends Fragment {
                                     }
                                 }
                                 //Check if Server was successful started
-                                Log.i("Home", "Status: " + appContext.smsServer.isRunning());
                                 if(appContext.smsServer.isRunning()) {
                                     //Check if browser should be opened
                                     if (sharedPref.getBoolean("open_browser_serverstart", true)) {

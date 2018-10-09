@@ -1,7 +1,5 @@
 package net.xcreen.restsms.server;
 
-import android.util.Log;
-
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.servlet.ServletContextHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
@@ -13,9 +11,10 @@ public class SMSServer {
     private int port = 8080;
     private Server jettyServer;
     private boolean serverStarted = false;
+    private ServerLogging serverLogging;
 
     public void start(String tmpDir) throws Exception{
-        Log.i("SMS-Server", "Starting Server...");
+        serverLogging.log("info", "Starting Server...");
         serverStarted = false;
 
         //Setup Jetty
@@ -23,11 +22,11 @@ public class SMSServer {
 
         ServletContextHandler servletContextHandler = new ServletContextHandler();
         //Setup SMS-Servlet
-        ServletHolder smsServletHolder = new ServletHolder(new SMSServlet());
+        ServletHolder smsServletHolder = new ServletHolder(new SMSServlet(serverLogging));
         smsServletHolder.getRegistration().setMultipartConfig(new MultipartConfigElement(tmpDir));
         servletContextHandler.addServlet(smsServletHolder, "/send");
         //Setup Welcome-Servlet
-        ServletHolder smsWelcomeServletHolder = new ServletHolder(new SMSWelcomeServlet());
+        ServletHolder smsWelcomeServletHolder = new ServletHolder(new SMSWelcomeServlet(serverLogging));
         smsWelcomeServletHolder.getRegistration().setMultipartConfig(new MultipartConfigElement(tmpDir));
         servletContextHandler.addServlet(smsWelcomeServletHolder, "/");
 
@@ -46,7 +45,7 @@ public class SMSServer {
     public void stop() throws Exception{
         serverStarted = false;
         if(jettyServer != null) {
-            Log.i("SMS-Server", "Stopping Server...");
+            serverLogging.log("info", "Stopping Server...");
             jettyServer.stop();
         }
     }
@@ -91,6 +90,14 @@ public class SMSServer {
      */
     public void setPort(int port){
         this.port = port;
+    }
+
+    /**
+     * Set Server-Logger
+     * @param serverLogging - ServerLogging-Object
+     */
+    public void setServerLogging(ServerLogging serverLogging){
+        this.serverLogging = serverLogging;
     }
 
     /**

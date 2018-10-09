@@ -11,9 +11,15 @@ import javax.servlet.http.HttpServletResponse;
 
 public class SMSWelcomeServlet extends HttpServlet {
 
+    private ServerLogging serverLogging;
+
+    public SMSWelcomeServlet(ServerLogging serverLogging){
+        this.serverLogging = serverLogging;
+    }
+
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        Log.i("SMS-WelcomeServlet", "Request /");
+        serverLogging.log("info", "Welcome-Servlet Request /");
         response.getWriter().println("RestSMS-Server is running!");
     }
 }
