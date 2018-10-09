@@ -1,4 +1,4 @@
-package net.xcreen.restsms;
+package net.xcreen.restsms.server;
 
 import android.util.Log;
 

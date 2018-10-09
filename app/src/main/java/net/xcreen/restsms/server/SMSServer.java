@@ -1,10 +1,9 @@
-package net.xcreen.restsms;
+package net.xcreen.restsms.server;
 
 import android.util.Log;
 
 import org.eclipse.jetty.server.Server;
 import org.eclipse.jetty.servlet.ServletContextHandler;
-import org.eclipse.jetty.servlet.ServletHandler;
 import org.eclipse.jetty.servlet.ServletHolder;
 
 import javax.servlet.MultipartConfigElement;
@@ -13,9 +12,11 @@ public class SMSServer {
 
     private int port = 8080;
     private Server jettyServer;
+    private boolean serverStarted = false;
 
     public void start(String tmpDir) throws Exception{
         Log.i("SMS-Server", "Starting Server...");
+        serverStarted = false;
 
         //Setup Jetty
         jettyServer = new Server(port);
@@ -34,6 +35,7 @@ public class SMSServer {
 
         //Start Jetty
         jettyServer.start();
+        serverStarted = true;
         jettyServer.join();
     }
 
@@ -42,6 +44,7 @@ public class SMSServer {
      * @throws Exception - Jetty Exception
      */
     public void stop() throws Exception{
+        serverStarted = false;
         if(jettyServer != null) {
             Log.i("SMS-Server", "Stopping Server...");
             jettyServer.stop();
@@ -83,19 +86,6 @@ public class SMSServer {
     }
 
     /**
-     * Check if Jetty is starting
-     * @return boolean - True when server is starting
-     */
-    public boolean isStarting(){
-        if(jettyServer != null){
-            return jettyServer.isStarting();
-        }
-        else{
-            return false;
-        }
-    }
-
-    /**
      * Set Server-Port
      * @param port - Server-Port
      */
@@ -103,4 +93,11 @@ public class SMSServer {
         this.port = port;
     }
 
+    /**
+     * Return if the server started
+     * @return boolean - True, when server started
+     */
+    public boolean getServerStarted(){
+        return serverStarted;
+    }
 }

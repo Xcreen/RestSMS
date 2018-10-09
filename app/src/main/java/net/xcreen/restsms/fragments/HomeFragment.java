@@ -13,6 +13,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.telephony.TelephonyManager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -134,7 +135,7 @@ public class HomeFragment extends Fragment {
                             @Override
                             public void run() {
                                 //Wait till server is started
-                                while(appContext.smsServer.isStarting()){
+                                while(!appContext.smsServer.getServerStarted()){
                                     try{
                                         Thread.sleep(100);
                                     }
@@ -143,6 +144,7 @@ public class HomeFragment extends Fragment {
                                     }
                                 }
                                 //Check if Server was successful started
+                                Log.i("Home", "Status: " + appContext.smsServer.isRunning());
                                 if(appContext.smsServer.isRunning()) {
                                     //Check if browser should be opened
                                     if (sharedPref.getBoolean("open_browser_serverstart", true)) {
