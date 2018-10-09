@@ -139,12 +139,15 @@ public class HomeFragment extends Fragment {
                                         ex.printStackTrace();
                                     }
                                 }
-                                //Check if browser should be opened
-                                if(sharedPref.getBoolean("open_browser_serverstart", true)){
-                                    //Open Browser
-                                    String serverUrl = "http://127.0.0.1:" + serverPort;
-                                    Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(serverUrl));
-                                    startActivity(browserIntent);
+                                //Check if Server was successful started
+                                if(appContext.smsServer.isRunning()) {
+                                    //Check if browser should be opened
+                                    if (sharedPref.getBoolean("open_browser_serverstart", true)) {
+                                        //Open Browser
+                                        String serverUrl = "http://127.0.0.1:" + serverPort;
+                                        Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(serverUrl));
+                                        startActivity(browserIntent);
+                                    }
                                 }
                             }
                         }).start();
