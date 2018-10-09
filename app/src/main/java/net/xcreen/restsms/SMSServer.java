@@ -11,7 +11,7 @@ import javax.servlet.MultipartConfigElement;
 
 public class SMSServer {
 
-    private int port = 8081;
+    private int port = 8080;
     private Server jettyServer;
 
     public void start(String tmpDir) throws Exception{

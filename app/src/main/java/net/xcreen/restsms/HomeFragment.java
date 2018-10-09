@@ -5,9 +5,11 @@ import androidx.fragment.app.Fragment;
 
 import android.Manifest;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Build;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.telephony.TelephonyManager;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -77,6 +79,11 @@ public class HomeFragment extends Fragment {
                         toggleServerBtn.setText(getResources().getText(R.string.start_server));
                     } else if (!appContext.smsServer.isStopping()) {
                         final String cacheDir = v.getContext().getCacheDir().getAbsolutePath();
+
+                        //Set Port
+                        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(v.getContext());
+                        appContext.smsServer.setPort(sharedPref.getInt("server_port", 8080));
+
                         //Start Server
                         new Thread(new Runnable() {
                             @Override
@@ -89,6 +96,7 @@ public class HomeFragment extends Fragment {
                                 }
                             }
                         }).start();
+
                         //Switch Button-Text
                         toggleServerBtn.setText(getResources().getText(R.string.stop_server));
                     } else {

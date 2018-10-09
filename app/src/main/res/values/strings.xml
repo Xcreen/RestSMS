@@ -40,6 +40,12 @@
     <string name="error_sim_card_error">Card-Error!</string>
     <string name="error_sim_restricted">Not usable because of Carrier-Restriction!</string>
 
+    <string name="setting_port">Port</string>
+    <string name="setting_save">Save</string>
+    <string name="setting_invalid_port">Invalid Port!</string>
+    <string name="setting_invalid_port_range">Port must be between 0 and 65535!</string>
+    <string name="setting_saved">Settings saved!</string>
+
     <string name="yes">Yes</string>
     <string name="no">No</string>
     <string name="unknown">---</string>
