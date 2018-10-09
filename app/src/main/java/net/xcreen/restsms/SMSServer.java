@@ -20,11 +20,15 @@ public class SMSServer {
         //Setup Jetty
         jettyServer = new Server(port);
 
-        //Sms-Servlet
         ServletContextHandler servletContextHandler = new ServletContextHandler();
+        //Setup SMS-Servlet
         ServletHolder smsServletHolder = new ServletHolder(new SMSServlet());
         smsServletHolder.getRegistration().setMultipartConfig(new MultipartConfigElement(tmpDir));
         servletContextHandler.addServlet(smsServletHolder, "/send");
+        //Setup Welcome-Servlet
+        ServletHolder smsWelcomeServletHolder = new ServletHolder(new SMSWelcomeServlet());
+        smsWelcomeServletHolder.getRegistration().setMultipartConfig(new MultipartConfigElement(tmpDir));
+        servletContextHandler.addServlet(smsWelcomeServletHolder, "/");
 
         jettyServer.setHandler(servletContextHandler);
 
