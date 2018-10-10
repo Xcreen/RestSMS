@@ -14,6 +14,10 @@
             android:icon="@drawable/nav_settings"
             android:title="@string/nav_item_settings" />
         <item
+            android:id="@+id/nav_logging"
+            android:icon="@drawable/nav_logging"
+            android:title="@string/nav_item_logging" />
+        <item
             android:id="@+id/nav_about"
             android:icon="@drawable/nav_info"
             android:title="@string/nav_item_about" />

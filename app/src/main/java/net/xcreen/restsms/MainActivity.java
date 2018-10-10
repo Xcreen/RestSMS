@@ -14,6 +14,7 @@ import android.view.MenuItem;
 
 import net.xcreen.restsms.fragments.AboutFragment;
 import net.xcreen.restsms.fragments.HomeFragment;
+import net.xcreen.restsms.fragments.LoggingFragment;
 import net.xcreen.restsms.fragments.SettingsFragment;
 
 import org.slf4j.impl.SimpleLogger;
@@ -79,6 +80,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 break;
             case R.id.nav_settings:
                 fragment = new SettingsFragment();
+                break;
+            case R.id.nav_logging:
+                fragment = new LoggingFragment();
                 break;
             case R.id.nav_about:
                 fragment = new AboutFragment();
