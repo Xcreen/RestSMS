@@ -1,7 +1,5 @@
 package net.xcreen.restsms.server;
 
-import android.util.Log;
-
 import java.io.IOException;
 
 import javax.servlet.ServletException;
@@ -19,7 +17,13 @@ public class SMSWelcomeServlet extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        serverLogging.log("info", "Welcome-Servlet Request /");
+        String requestURI = request.getRequestURI();
+        if(requestURI != null){
+            serverLogging.log("info", "Welcome-Servlet Request " + requestURI);
+        }
+        else {
+            serverLogging.log("info", "Welcome-Servlet Request /");
+        }
         response.getWriter().println("RestSMS-Server is running!");
     }
 }
