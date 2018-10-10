@@ -51,6 +51,10 @@
 
     <string name="logging_log_entries">Entries: %1$d</string>
     <string name="logging_detail_headline">File: %1$s</string>
+    <string name="logging_delete_headline">Delete Log?</string>
+    <string name="logging_delete">You want delete the log-file (%1$s)?</string>
+    <string name="logging_failed_to_delete">Failed to delete log-file.</string>
+    <string name="logging_successful_deleted">Successfully delete log-file.</string>
 
     <string name="yes">Yes</string>
     <string name="no">No</string>

@@ -1,6 +1,8 @@
 package net.xcreen.restsms.fragments;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -13,6 +15,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import net.xcreen.restsms.R;
 
@@ -68,6 +71,47 @@ public class LoggingFragment extends Fragment {
                 Fragment loggingFragment = LoggingDetailFragment.newInstance(filePath);
                 FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
                 fragmentTransaction.replace(R.id.main_framelayout, loggingFragment).addToBackStack("fragBack").commit();
+            }
+        });
+
+        listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, final int position, long id) {
+                String filePath = dataModels.get(position).getPath();
+                final File logFile = new File(filePath);
+
+                DialogInterface.OnClickListener dialogClickListener = new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        switch (which){
+                            case DialogInterface.BUTTON_POSITIVE:
+                                //Delete File
+                                if(logFile.delete()) {
+                                    //Remove Item from ListView
+                                    dataModels.remove(position);
+                                    customListViewAdapter.notifyDataSetChanged();
+                                    Toast.makeText(getContext(), getString(R.string.logging_successful_deleted), Toast.LENGTH_LONG).show();
+                                }
+                                else{
+                                    //Failed to delete File
+                                    Toast.makeText(getContext(), getString(R.string.logging_failed_to_delete), Toast.LENGTH_LONG).show();
+                                }
+                                break;
+
+                            case DialogInterface.BUTTON_NEGATIVE:
+                                break;
+                        }
+                    }
+                };
+
+                AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                builder.setMessage(getString(R.string.logging_delete, logFile.getName()))
+                       .setTitle(getString(R.string.logging_delete_headline))
+                       .setPositiveButton(getString(R.string.yes), dialogClickListener)
+                       .setNegativeButton(getString(R.string.no), dialogClickListener)
+                       .show();
+
+                return true;
             }
         });
 
