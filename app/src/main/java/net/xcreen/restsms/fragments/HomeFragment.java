@@ -42,7 +42,7 @@ public class HomeFragment extends Fragment {
 
         appContext = (AppContext) getActivity().getApplication();
         //Set Server-Logging for Server
-        ServerLogging serverLogging = new ServerLogging(getContext().getFilesDir().getAbsolutePath());
+        ServerLogging serverLogging = new ServerLogging(getContext().getFilesDir().getAbsolutePath(), getContext());
         appContext.smsServer.setServerLogging(serverLogging);
 
         toggleServerBtn = rootView.findViewById(R.id.toggle_server_btn);

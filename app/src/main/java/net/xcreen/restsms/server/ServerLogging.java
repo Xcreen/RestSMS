@@ -1,5 +1,8 @@
 package net.xcreen.restsms.server;
 
+import android.content.Context;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.util.Log;
 
 import java.io.BufferedWriter;
@@ -15,9 +18,11 @@ import java.util.Locale;
 public class ServerLogging {
 
     private String filepath = null;
+    private Context context;
 
-    public ServerLogging(String filepath){
+    public ServerLogging(String filepath, Context context){
         this.filepath = filepath + File.separator + "logs";
+        this.context = context;
     }
 
     /**
@@ -26,6 +31,11 @@ public class ServerLogging {
      * @param message - String Log-Message
      */
     public void log(String type, String message){
+        //Stop processing, when logging is disabled
+        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(context);
+        if(sharedPref.getBoolean("disable_logging", false)){
+            return;
+        }
         //Create and get Log-File
         String path = setupLogging();
 

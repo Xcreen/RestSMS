@@ -57,6 +57,18 @@
             android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/settings_port_textview" />
+
+        <CheckBox
+            android:id="@+id/settings_disable_logging_checkbox"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:text="@string/setting_disable_logging"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
+            android:textColor="@color/colorWhite"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/settings_open_browser_checkbox" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </FrameLayout>

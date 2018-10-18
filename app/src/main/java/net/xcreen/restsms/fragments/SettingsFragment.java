@@ -29,6 +29,7 @@ public class SettingsFragment extends Fragment {
         final SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(getContext());
         final EditText portEditText = rootView.findViewById(R.id.settings_port_edittext);
         final CheckBox openBrowserCheckBox = rootView.findViewById(R.id.settings_open_browser_checkbox);
+        final CheckBox disableLoggingCheckBox = rootView.findViewById(R.id.settings_disable_logging_checkbox);
 
         Button saveBtn = rootView.findViewById(R.id.settings_save_btn);
         saveBtn.setOnClickListener(new View.OnClickListener() {
@@ -64,6 +65,10 @@ public class SettingsFragment extends Fragment {
                 editor.putBoolean("open_browser_serverstart", openBrowserCheckBox.isChecked());
                 editor.apply();
 
+                //Save Disable-Logging-Option
+                editor.putBoolean("disable_logging", disableLoggingCheckBox.isChecked());
+                editor.apply();
+
                 if(saved){
                     Toast.makeText(v.getContext(), getResources().getText(R.string.setting_saved), Toast.LENGTH_SHORT).show();
                 }
@@ -76,6 +81,11 @@ public class SettingsFragment extends Fragment {
         //Set current "Open-Browser after Server-Start"-Option
         if(sharedPref.getBoolean("open_browser_serverstart", true)){
             openBrowserCheckBox.setChecked(true);
+        }
+
+        //Set current "Disable Logging"-Option
+        if(sharedPref.getBoolean("disable_logging", false)){
+            disableLoggingCheckBox.setChecked(true);
         }
 
         return rootView;
