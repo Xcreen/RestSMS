@@ -19,10 +19,10 @@ public class SMSWelcomeServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         String requestURI = request.getRequestURI();
         if(requestURI != null){
-            serverLogging.log("info", "Welcome-Servlet Request " + requestURI);
+            serverLogging.log("info", "Welcome-Servlet [" + request.getMethod() + "] Request " + requestURI + " From: " + request.getRemoteAddr());
         }
         else {
-            serverLogging.log("info", "Welcome-Servlet Request /");
+            serverLogging.log("info", "Welcome-Servlet [" + request.getMethod() + "] Request / From: " + request.getRemoteAddr());
         }
         response.getWriter().println("RestSMS-Server is running!");
     }

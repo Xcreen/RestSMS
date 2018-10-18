@@ -29,7 +29,7 @@ public class SMSServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        serverLogging.log("info", "SMS-Servlet Request /send");
+        serverLogging.log("info", "SMS-Servlet [" + request.getMethod() + "] Request /send From: " + request.getRemoteAddr());
         //Init Gson/PhoneNumberUtil
         GsonBuilder gsonBuilder = new GsonBuilder();
         Gson gson = gsonBuilder.create();
