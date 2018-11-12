@@ -22,8 +22,7 @@ import android.widget.Toast;
 import net.xcreen.restsms.AppContext;
 import net.xcreen.restsms.R;
 import net.xcreen.restsms.server.ServerLogging;
-
-import java.net.BindException;
+import net.xcreen.restsms.server.ServerService;
 
 public class HomeFragment extends Fragment {
 
@@ -50,134 +49,106 @@ public class HomeFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 //Check if SMS-Permission is grant
-                if (ActivityCompat.checkSelfPermission(v.getContext(), Manifest.permission.SEND_SMS) == PackageManager.PERMISSION_GRANTED) {
-                    //Check if Device has a Sim-Card
-                    try {
-                        TelephonyManager telephonyManager = (TelephonyManager) v.getContext().getSystemService(Context.TELEPHONY_SERVICE);
-                        int primarySim = telephonyManager.getSimState();
-                        int secondarySim = TelephonyManager.SIM_STATE_ABSENT;
-                        if (Build.VERSION.SDK_INT >= 26) {
-                            primarySim = telephonyManager.getSimState(0);
-                            secondarySim = telephonyManager.getSimState(1);
-                        }
-                        if (primarySim != TelephonyManager.SIM_STATE_READY) {
-                            if (secondarySim != TelephonyManager.SIM_STATE_READY) {
-                                //Device has not Sim-Card which is ready
-                                Toast.makeText(v.getContext(), getResources().getText(R.string.invalid_sim), Toast.LENGTH_LONG).show();
-                                return;
-                            }
-                        }
-                    } catch (Exception ex) {
-                        ex.printStackTrace();
-                        Toast.makeText(v.getContext(), getResources().getText(R.string.invalid_sim), Toast.LENGTH_LONG).show();
-                        return;
-                    }
-
-                    //Check if Server is running
-                    if (appContext.smsServer.isRunning() && !appContext.smsServer.isStopping()) {
-                        //Stop Server
-                        new Thread(new Runnable() {
-                            @Override
-                            public void run() {
-                                try {
-                                    appContext.smsServer.stop();
-                                } catch (Exception ex) {
-                                    ex.printStackTrace();
-                                }
-                            }
-                        }).start();
-                        //Switch Button-Text
-                        toggleServerBtn.setText(getResources().getText(R.string.start_server));
-                    } else if (!appContext.smsServer.isStopping()) {
-                        final String cacheDir = v.getContext().getCacheDir().getAbsolutePath();
-
-                        //Set Port
-                        final SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(v.getContext());
-                        final int serverPort = sharedPref.getInt("server_port", 8080);
-                        appContext.smsServer.setPort(serverPort);
-
-                        //Start Server
-                        new Thread(new Runnable() {
-                            @Override
-                            public void run() {
-                                try {
-                                    appContext.smsServer.start(cacheDir);
-                                }
-                                catch(BindException bindEx){
-                                    getActivity().runOnUiThread(new Runnable() {
-                                        @Override
-                                        public void run() {
-                                            try {
-                                                Toast.makeText(getContext(), getResources().getText(R.string.server_failed_bindex), Toast.LENGTH_LONG).show();
-                                                toggleServerBtn.setText(getResources().getText(R.string.start_server));
-                                            }
-                                            catch (Exception ex){ ex.printStackTrace(); }
-                                        }
-                                    });
-                                }
-                                catch (Exception ex) {
-                                    ex.printStackTrace();
-                                    getActivity().runOnUiThread(new Runnable() {
-                                        @Override
-                                        public void run() {
-                                            try {
-                                                Toast.makeText(getContext(), getResources().getText(R.string.server_failed_to_start), Toast.LENGTH_LONG).show();
-                                                toggleServerBtn.setText(getResources().getText(R.string.start_server));
-                                            }
-                                            catch (Exception ex){ ex.printStackTrace(); }
-                                        }
-                                    });
-                                }
-                            }
-                        }).start();
-
-                        //Switch Button-Text
-                        toggleServerBtn.setText(getResources().getText(R.string.stop_server));
-
-                        new Thread(new Runnable() {
-                            @Override
-                            public void run() {
-                                //Wait till server is started
-                                while(!appContext.smsServer.getServerStarted()){
-                                    try{
-                                        Thread.sleep(100);
-                                    }
-                                    catch (Exception ex){
-                                        ex.printStackTrace();
-                                    }
-                                }
-                                //Check if Server was successful started
-                                if(appContext.smsServer.isRunning()) {
-                                    //Check if browser should be opened
-                                    if (sharedPref.getBoolean("open_browser_serverstart", true)) {
-                                        //Open Browser
-                                        String serverUrl = "http://127.0.0.1:" + serverPort;
-                                        Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(serverUrl));
-                                        startActivity(browserIntent);
-                                    }
-                                }
-                            }
-                        }).start();
-
-                    } else {
-                        //Server is stopping
-                        Toast.makeText(v.getContext(), getResources().getText(R.string.server_is_stopping), Toast.LENGTH_LONG).show();
-                    }
-                }
-                else{
+                if (ActivityCompat.checkSelfPermission(v.getContext(), Manifest.permission.SEND_SMS) != PackageManager.PERMISSION_GRANTED) {
                     //Show Error Toast
                     Toast.makeText(v.getContext(), getResources().getText(R.string.no_sms_permission), Toast.LENGTH_LONG).show();
                     //Request Permission
                     ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.SEND_SMS}, SMS_PERMISSION_REQUEST);
+                    return;
                 }
+                //Check if Device has a Sim-Card
+                try {
+                    TelephonyManager telephonyManager = (TelephonyManager) v.getContext().getSystemService(Context.TELEPHONY_SERVICE);
+                    int primarySim = telephonyManager.getSimState();
+                    int secondarySim = TelephonyManager.SIM_STATE_ABSENT;
+                    if (Build.VERSION.SDK_INT >= 26) {
+                        primarySim = telephonyManager.getSimState(0);
+                        secondarySim = telephonyManager.getSimState(1);
+                    }
+                    if (primarySim != TelephonyManager.SIM_STATE_READY) {
+                        if (secondarySim != TelephonyManager.SIM_STATE_READY) {
+                            //Device has not Sim-Card which is ready
+                            Toast.makeText(v.getContext(), getResources().getText(R.string.invalid_sim), Toast.LENGTH_LONG).show();
+                            return;
+                        }
+                    }
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                    Toast.makeText(v.getContext(), getResources().getText(R.string.invalid_sim), Toast.LENGTH_LONG).show();
+                    return;
+                }
+
+                //Get Port
+                SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(v.getContext());
+                final int serverPort = sharedPref.getInt("server_port", 8080);
+
+                //Set Intent
+                Intent serverIntent = new Intent(v.getContext(), ServerService.class);
+                if(ServerService.isRunning) {
+                    serverIntent.setAction("stop");
+                    ServerService.isRunning = false;
+                }
+                else{
+                    serverIntent.setAction("start");
+                    ServerService.isRunning = true;
+
+                    //Check if browser should be opened
+                    if (sharedPref.getBoolean("open_browser_serverstart", true)) {
+                        //Wait till Server is started
+                        new Thread(new Runnable() {
+                            @Override
+                            public void run() {
+                                while(!appContext.smsServer.isRunning()){
+                                    try {
+                                        Thread.sleep(100);
+                                    }
+                                    catch (Exception ex){}
+                                }
+                                //Open Browser
+                                String serverUrl = "http://127.0.0.1:" + serverPort;
+                                Intent browserIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(serverUrl));
+                                startActivity(browserIntent);
+                            }
+                        }).start();
+                    }
+                }
+                //Start Service
+                v.getContext().startService(serverIntent);
+                refreshButtonText();
             }
         });
 
-        //Check Server is running, to set correct Button-Text
-        if(appContext.smsServer.isRunning()){
-            toggleServerBtn.setText(getResources().getText(R.string.stop_server));
-        }
+        //Refresh Button every sec
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    while(true) {
+                        Thread.sleep(1000);
+                        getActivity().runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
+                                refreshButtonText();
+                            }
+                        });
+                    }
+                }
+                catch (Exception ex){ex.printStackTrace();}
+            }
+        }).start();
 
         return rootView;
+    }
+
+    /*
+     * Check if Service is running and set correct Button-Text
+     */
+    private void refreshButtonText(){
+        if(ServerService.isRunning){
+            toggleServerBtn.setText(getResources().getText(R.string.stop_server));
+        }
+        else{
+            toggleServerBtn.setText(getResources().getText(R.string.start_server));
+        }
     }
 }
