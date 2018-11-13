@@ -85,11 +85,11 @@ public class HomeFragment extends Fragment {
                 //Set Intent
                 Intent serverIntent = new Intent(v.getContext(), ServerService.class);
                 if(ServerService.isRunning) {
-                    serverIntent.setAction("stop");
+                    serverIntent.setAction(ServerService.STOP_ACTION);
                     ServerService.isRunning = false;
                 }
                 else{
-                    serverIntent.setAction("start");
+                    serverIntent.setAction(ServerService.START_ACTION);
                     ServerService.isRunning = true;
 
                     //Check if browser should be opened

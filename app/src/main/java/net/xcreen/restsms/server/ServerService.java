@@ -23,6 +23,8 @@ import androidx.core.app.NotificationCompat;
 public class ServerService extends Service {
 
     public static boolean isRunning = false;
+    public static final String START_ACTION = "start";
+    public static final String STOP_ACTION = "stop";
     AppContext appContext;
 
     @Override
@@ -34,13 +36,13 @@ public class ServerService extends Service {
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
         String intentAction = intent.getAction();
-        if(intentAction != null && intentAction.equals("start")) {
+        if(intentAction != null && intentAction.equals(START_ACTION)) {
             //Check if Server is already running or in process
             if (!appContext.smsServer.isRunning() && !appContext.smsServer.isStopping()) {
                 startService();
             }
         }
-        else if(intentAction != null && intentAction.equals("stop")){
+        else if(intentAction != null && intentAction.equals(STOP_ACTION)){
             stopForeground(true);
             stopSelf();
         }
@@ -105,7 +107,7 @@ public class ServerService extends Service {
                 finally {
                     //Stop Service
                     Intent serverIntent = new Intent(getApplicationContext(), ServerService.class);
-                    serverIntent.setAction("stop");
+                    serverIntent.setAction(STOP_ACTION);
                     startService(serverIntent);
                 }
             }
