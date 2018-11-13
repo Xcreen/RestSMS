@@ -61,7 +61,7 @@ public class ServerService extends Service {
 
         //Set Stop-Button
         Intent stopIntent = new Intent(this, ServerService.class);
-        stopIntent.setAction("stop");
+        stopIntent.setAction(STOP_ACTION);
         PendingIntent pendingStopIntent = PendingIntent.getService(this, 0, stopIntent, 0);
 
         //Create Notification
