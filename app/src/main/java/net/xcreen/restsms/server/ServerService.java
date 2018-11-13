@@ -67,8 +67,8 @@ public class ServerService extends Service {
         //Create Notification
         Notification notification = new NotificationCompat.Builder(this, "TESTID")
                 .setSmallIcon(R.drawable.launcher)
-                .setContentText(getString(R.string.app_name))
-                .setContentTitle(getString(R.string.notification_text, serverPort))
+                .setContentTitle(getString(R.string.app_name))
+                .setContentText(getString(R.string.notification_text, serverPort))
                 .setCategory(NotificationCompat.CATEGORY_SERVICE)
                 .setPriority(NotificationCompat.PRIORITY_HIGH)
                 .setOngoing(true)
