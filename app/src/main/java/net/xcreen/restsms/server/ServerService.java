@@ -47,7 +47,10 @@ public class ServerService extends Service {
 
         return START_STICKY;
     }
-    
+
+    /**
+     * Start Server and Service in Foreground
+     */
     public void startService(){
         //Set Port
         SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
@@ -61,13 +64,13 @@ public class ServerService extends Service {
 
         //Create Notification
         Notification notification = new NotificationCompat.Builder(this, "TESTID")
-                .setSmallIcon(android.R.drawable.ic_dialog_email)
+                .setSmallIcon(R.drawable.launcher)
                 .setContentText(getString(R.string.app_name))
                 .setContentTitle(getString(R.string.notification_text, serverPort))
                 .setCategory(NotificationCompat.CATEGORY_SERVICE)
                 .setPriority(NotificationCompat.PRIORITY_HIGH)
                 .setOngoing(true)
-                .addAction(android.R.drawable.ic_media_pause, getString(R.string.stop_server), pendingStopIntent)
+                .addAction(R.drawable.notification_stop, getString(R.string.stop_server), pendingStopIntent)
                 .build();
 
         //Start Serve in new Thread
