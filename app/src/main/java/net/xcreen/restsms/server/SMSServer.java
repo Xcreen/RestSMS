@@ -95,4 +95,12 @@ public class SMSServer {
     public void setServerLogging(ServerLogging serverLogging){
         this.serverLogging = serverLogging;
     }
+
+    /**
+     * Get Server-Logger
+     * @return serverLogging - ServerLogging-Object
+     */
+    public ServerLogging getServerLogging(){
+        return serverLogging;
+    }
 }

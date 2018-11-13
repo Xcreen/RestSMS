@@ -93,6 +93,7 @@ public class ServerService extends Service {
                             Toast.makeText(getApplicationContext(), getResources().getText(R.string.server_failed_bindex), Toast.LENGTH_LONG).show();
                         }
                     });
+                    appContext.smsServer.getServerLogging().log("error", "Server cant start up on this port (Bind-Exception)!");
                 }
                 catch (Exception ex){
                     ex.printStackTrace();
@@ -103,6 +104,7 @@ public class ServerService extends Service {
                             Toast.makeText(getApplicationContext(), getResources().getText(R.string.server_failed_to_start), Toast.LENGTH_LONG).show();
                         }
                     });
+                    appContext.smsServer.getServerLogging().log("error", "Failed to start up server!");
                 }
                 finally {
                     //Stop Service
