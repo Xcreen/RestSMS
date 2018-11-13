@@ -40,7 +40,7 @@ public class SMSServer {
      * @throws Exception - Jetty Exception
      */
     public void stop() throws Exception{
-        if(jettyServer != null) {
+        if(!isStopping()) {
             serverLogging.log("info", "Stopping Server...");
             jettyServer.stop();
         }
