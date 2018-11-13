@@ -10,12 +10,10 @@ public class SMSServer {
 
     private int port = 8080;
     private Server jettyServer;
-    private boolean serverStarted = false;
     private ServerLogging serverLogging;
 
     public void start(String tmpDir) throws Exception{
         serverLogging.log("info", "Starting Server...");
-        serverStarted = false;
 
         //Setup Jetty
         jettyServer = new Server(port);
@@ -34,7 +32,6 @@ public class SMSServer {
 
         //Start Jetty
         jettyServer.start();
-        serverStarted = true;
         jettyServer.join();
     }
 
@@ -43,7 +40,6 @@ public class SMSServer {
      * @throws Exception - Jetty Exception
      */
     public void stop() throws Exception{
-        serverStarted = false;
         if(jettyServer != null) {
             serverLogging.log("info", "Stopping Server...");
             jettyServer.stop();
@@ -98,13 +94,5 @@ public class SMSServer {
      */
     public void setServerLogging(ServerLogging serverLogging){
         this.serverLogging = serverLogging;
-    }
-
-    /**
-     * Return if the server started
-     * @return boolean - True, when server started
-     */
-    public boolean getServerStarted(){
-        return serverStarted;
     }
 }
