@@ -1,10 +1,14 @@
 package net.xcreen.restsms.server;
 
 import android.app.Notification;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.app.Service;
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.os.Build;
 import android.os.Handler;
 import android.os.IBinder;
 import android.os.Looper;
@@ -25,6 +29,8 @@ public class ServerService extends Service {
     public static boolean isRunning = false;
     public static final String START_ACTION = "start";
     public static final String STOP_ACTION = "stop";
+    private final String NOTIFICATION_CHANNEL_ID = "sms_server_notification_channel";
+    private final String NOTIFICATION_CHANNEL_NAME = "Sms-Server Service";
     AppContext appContext;
 
     @Override
@@ -64,8 +70,16 @@ public class ServerService extends Service {
         stopIntent.setAction(STOP_ACTION);
         PendingIntent pendingStopIntent = PendingIntent.getService(this, 0, stopIntent, 0);
 
+        //Setup Notification-Channel
+        if(Build.VERSION.SDK_INT >= 26) {
+            NotificationChannel notificationChannel = new NotificationChannel(NOTIFICATION_CHANNEL_ID, NOTIFICATION_CHANNEL_NAME, NotificationManager.IMPORTANCE_HIGH);
+            NotificationManager notificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+            if(notificationManager != null) {
+                notificationManager.createNotificationChannel(notificationChannel);
+            }
+        }
         //Create Notification
-        Notification notification = new NotificationCompat.Builder(this, "TESTID")
+        Notification notification = new NotificationCompat.Builder(this, NOTIFICATION_CHANNEL_ID)
                 .setSmallIcon(R.drawable.launcher)
                 .setContentTitle(getString(R.string.app_name))
                 .setContentText(getString(R.string.notification_text, serverPort))
