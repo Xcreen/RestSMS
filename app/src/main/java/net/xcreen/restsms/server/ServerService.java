@@ -29,6 +29,7 @@ public class ServerService extends Service {
     public static boolean isRunning = false;
     public static final String START_ACTION = "start";
     public static final String STOP_ACTION = "stop";
+    private final int SERVER_SERVICE_ID = 10000;
     private final String NOTIFICATION_CHANNEL_ID = "sms_server_notification_channel";
     private final String NOTIFICATION_CHANNEL_NAME = "Sms-Server Service";
     AppContext appContext;
@@ -130,7 +131,7 @@ public class ServerService extends Service {
             }
         }).start();
         //Set in Foreground
-        startForeground(1, notification);
+        startForeground(SERVER_SERVICE_ID, notification);
     }
 
     @Override
