@@ -80,9 +80,10 @@ public class ServerService extends Service {
         }
         //Create Notification
         Notification notification = new NotificationCompat.Builder(this, NOTIFICATION_CHANNEL_ID)
-                .setSmallIcon(R.drawable.launcher_outline)
                 .setContentTitle(getString(R.string.app_name))
                 .setContentText(getString(R.string.notification_text, serverPort))
+                .setSmallIcon(R.drawable.notification_icon)
+                .setColor(getColor(R.color.colorPrimary))
                 .setCategory(NotificationCompat.CATEGORY_SERVICE)
                 .setPriority(NotificationCompat.PRIORITY_HIGH)
                 .setOngoing(true)
