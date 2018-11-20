@@ -6,3 +6,6 @@
 /build
 /captures
 .externalNativeBuild
+restsms_keystore.txt
+restsms_keystore.jks
+app/release/*
