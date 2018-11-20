@@ -9,3 +9,5 @@
 restsms_keystore.txt
 restsms_keystore.jks
 app/release/*
+app/lint-baseline.xml
+app/google-services.json
