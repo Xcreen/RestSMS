@@ -36,9 +36,9 @@ public class AboutThirdPartyLibrarysFragment extends Fragment {
         //Set Data
         dataModels.add(new DataModel("FontAwesome", "4.7.0 / Used for Navigation-Icons", "https://fontawesome.com/"));
         dataModels.add(new DataModel("Jetty", "9.2.26.v20180806 / Used for the HTTP-Server", "https://www.eclipse.org/jetty/"));
-        dataModels.add(new DataModel("GSON", "2.8.5 / Used for JSON/Java-Object serialization/deserialization", "https://github.com/google/gson"));
-        dataModels.add(new DataModel("libphonenumber", "8.9.14 / Used validating/parsing phone-numbers.", "https://github.com/googlei18n/libphonenumber"));
-        dataModels.add(new DataModel("Slf4j-simple", "1.7.25 / Used Jetty-Logging", "https://www.slf4j.org/"));
+        dataModels.add(new DataModel("GSON", "2.8.6 / Used for JSON/Java-Object serialization/deserialization", "https://github.com/google/gson"));
+        dataModels.add(new DataModel("libphonenumber", "8.11.1 / Used validating/parsing phone-numbers.", "https://github.com/googlei18n/libphonenumber"));
+        dataModels.add(new DataModel("Slf4j-simple", "1.7.30 / Used Jetty-Logging", "https://www.slf4j.org/"));
 
         CustomListViewAdapter customListViewAdapter = new CustomListViewAdapter(dataModels, getActivity());
         ListView listView = rootView.findViewById(R.id.about_third_party_list_view);
