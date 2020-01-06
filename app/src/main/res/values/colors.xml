@@ -9,4 +9,5 @@
     <color name="colorDarkBlack">#202020</color>
     <color name="colorLightBlack">#616161</color>
     <color name="colorWhite">#FFF</color>
+    <color name="colorError">#ff0011</color>
 </resources>

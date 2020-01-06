@@ -3,6 +3,7 @@ package net.xcreen.restsms.fragments;
 import android.Manifest;
 import android.content.Context;
 import android.content.pm.PackageManager;
+import android.graphics.PorterDuff;
 import android.os.Build;
 import android.os.Bundle;
 
@@ -14,6 +15,7 @@ import android.telephony.TelephonyManager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import net.xcreen.restsms.BuildConfig;
@@ -39,16 +41,15 @@ public class AboutAppFragment extends Fragment {
         versionNameResultTV.setText(String.valueOf(BuildConfig.VERSION_CODE));
 
         //Check if has SMS-Permission
-        TextView smsPermissionResultTV = rootView.findViewById(R.id.about_app_smspermission_result_textview);
+        ImageView smsPermissionResultImageView = rootView.findViewById(R.id.about_app_smspermission_result_iv);
+        smsPermissionResultImageView.setColorFilter(getContext().getColor(R.color.colorError), PorterDuff.Mode.SRC_ATOP);
         try {
             if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.SEND_SMS) == PackageManager.PERMISSION_GRANTED) {
-                smsPermissionResultTV.setText(R.string.yes);
-            } else {
-                smsPermissionResultTV.setText(R.string.no);
+                smsPermissionResultImageView.setImageDrawable(getContext().getDrawable(R.drawable.check_yes));
+                smsPermissionResultImageView.setColorFilter(getContext().getColor(R.color.colorPrimary), PorterDuff.Mode.SRC_ATOP);
             }
         }
         catch (Exception ex){
-            smsPermissionResultTV.setText(R.string.unknown);
             ex.printStackTrace();
         }
 

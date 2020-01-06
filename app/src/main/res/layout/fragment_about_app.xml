@@ -74,15 +74,13 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/about_app_versionname_textview" />
 
-            <TextView
-                android:id="@+id/about_app_smspermission_result_textview"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+            <ImageView
+                android:id="@+id/about_app_smspermission_result_iv"
+                android:layout_width="20dp"
+                android:layout_height="20dp"
                 android:layout_marginTop="12dp"
                 android:layout_marginEnd="8dp"
-                android:text="@string/unknown"
-                android:textColor="@color/colorWhite"
-                android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
+                android:src="@drawable/check_no"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/about_app_versionname_result_textview" />
 
@@ -105,10 +103,10 @@
                 android:layout_marginTop="12dp"
                 android:layout_marginEnd="8dp"
                 android:text="@string/unknown"
-                android:textColor="@color/colorWhite"
                 android:textAppearance="@style/TextAppearance.MaterialComponents.Body2"
+                android:textColor="@color/colorWhite"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/about_app_smspermission_result_textview" />
+                app:layout_constraintTop_toBottomOf="@+id/about_app_smspermission_result_iv" />
 
             <TextView
                 android:id="@+id/about_app_sim2state_textview"
