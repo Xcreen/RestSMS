@@ -98,9 +98,11 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         switch(item.getItemId()){
             case R.id.nav_settings:
                 fragment = new SettingsFragment();
+                toolbar.setTitle(R.string.nav_item_settings);
                 break;
             case R.id.nav_logging:
                 fragment = new LoggingFragment();
+                toolbar.setTitle(R.string.nav_item_logging);
                 //Add Option-Items (if not exist)
                 if(optionsMenu.findItem(OPTION_ITEM_LOGGING_DELETE_ALL) == null) {
                     MenuItem loggingDeleteAllItem = optionsMenu.add(Menu.NONE, OPTION_ITEM_LOGGING_DELETE_ALL, 1, R.string.logging_options_delete_all);
@@ -148,10 +150,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 break;
             case R.id.nav_about:
                 fragment = new AboutFragment();
+                toolbar.setTitle(R.string.nav_item_about);
                 break;
             case R.id.nav_home:
             default:
                 fragment = new HomeFragment();
+                toolbar.setTitle(R.string.app_name);
                 break;
         }
         //Replace Fragment
