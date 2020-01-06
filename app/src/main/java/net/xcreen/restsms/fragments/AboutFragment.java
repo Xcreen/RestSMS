@@ -31,36 +31,40 @@ public class AboutFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_about, container, false);
 
-        //Set Tabs
-        tabLayout = new TabLayout(getActivity());
-        tabLayout.addTab(tabLayout.newTab().setText(getResources().getText(R.string.about_about_me)));
-        tabLayout.addTab(tabLayout.newTab().setText(getResources().getText(R.string.about_app_information)));
-        tabLayout.addTab(tabLayout.newTab().setText(getResources().getText(R.string.about_third_party_librarys)));
-        tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
-        tabLayout.setBackgroundColor(getResources().getColor(R.color.colorDarkBlack, null));
-        tabLayout.setTabTextColors(getResources().getColor(R.color.colorWhite, null), getResources().getColor(R.color.colorLightBlue, null));
-        tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
-            @Override
-            public void onTabSelected(TabLayout.Tab tab) {
-                viewPager.setCurrentItem(tab.getPosition());
-            }
+        if(getActivity() != null) {
+            //Set Tabs
+            tabLayout = new TabLayout(getActivity());
+            tabLayout.addTab(tabLayout.newTab().setText(getResources().getText(R.string.about_about_me)));
+            tabLayout.addTab(tabLayout.newTab().setText(getResources().getText(R.string.about_app_information)));
+            tabLayout.addTab(tabLayout.newTab().setText(getResources().getText(R.string.about_third_party_librarys)));
+            tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
+            tabLayout.setBackgroundColor(getResources().getColor(R.color.colorDarkBlack, null));
+            tabLayout.setTabTextColors(getResources().getColor(R.color.colorWhite, null), getResources().getColor(R.color.colorLightBlue, null));
+            tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+                @Override
+                public void onTabSelected(TabLayout.Tab tab) {
+                    viewPager.setCurrentItem(tab.getPosition());
+                }
 
-            @Override
-            public void onTabUnselected(TabLayout.Tab tab) { }
+                @Override
+                public void onTabUnselected(TabLayout.Tab tab) {
+                }
 
-            @Override
-            public void onTabReselected(TabLayout.Tab tab) { }
-        });
+                @Override
+                public void onTabReselected(TabLayout.Tab tab) {
+                }
+            });
 
-        //Add TabLayout to the AppBarLayout
-        mainAppBarLayout = getActivity().findViewById(R.id.appbar_layout);
-        mainAppBarLayout.addView(tabLayout, new LinearLayoutCompat.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+            //Add TabLayout to the AppBarLayout
+            mainAppBarLayout = getActivity().findViewById(R.id.appbar_layout);
+            mainAppBarLayout.addView(tabLayout, new LinearLayoutCompat.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT));
 
-        //Set Page-Adapter to ViewPager
-        FragmentPageAdapter pagerAdapter = new FragmentPageAdapter(getFragmentManager(), tabLayout.getTabCount());
-        viewPager = rootView.findViewById(R.id.about_view_pager);
-        viewPager.setAdapter(pagerAdapter);
-        viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
+            //Set Page-Adapter to ViewPager
+            FragmentPageAdapter pagerAdapter = new FragmentPageAdapter(getFragmentManager(), tabLayout.getTabCount());
+            viewPager = rootView.findViewById(R.id.about_view_pager);
+            viewPager.setAdapter(pagerAdapter);
+            viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
+        }
 
         return rootView;
     }
@@ -77,21 +81,20 @@ class FragmentPageAdapter extends FragmentStatePagerAdapter {
     private int numberOfTabs;
 
     public FragmentPageAdapter(FragmentManager fm, int numberOfTabs) {
-        super(fm);
+        super(fm, BEHAVIOR_RESUME_ONLY_CURRENT_FRAGMENT);
         this.numberOfTabs = numberOfTabs;
     }
 
     @Override
     public Fragment getItem(int position) {
         switch (position) {
-            case 0:
-                return new AboutMeFragment();
             case 1:
                 return new AboutAppFragment();
             case 2:
                 return new AboutThirdPartyLibrarysFragment();
+            case 0:
             default:
-                return null;
+                return new AboutMeFragment();
         }
     }
 

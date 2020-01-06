@@ -59,17 +59,19 @@ public class HomeFragment extends Fragment {
                 //Check if Device has a Sim-Card
                 try {
                     TelephonyManager telephonyManager = (TelephonyManager) v.getContext().getSystemService(Context.TELEPHONY_SERVICE);
-                    int primarySim = telephonyManager.getSimState();
-                    int secondarySim = TelephonyManager.SIM_STATE_ABSENT;
-                    if (Build.VERSION.SDK_INT >= 26) {
-                        primarySim = telephonyManager.getSimState(0);
-                        secondarySim = telephonyManager.getSimState(1);
-                    }
-                    if (primarySim != TelephonyManager.SIM_STATE_READY) {
-                        if (secondarySim != TelephonyManager.SIM_STATE_READY) {
-                            //Device has not Sim-Card which is ready
-                            Toast.makeText(v.getContext(), getResources().getText(R.string.invalid_sim), Toast.LENGTH_LONG).show();
-                            return;
+                    if(telephonyManager != null) {
+                        int primarySim = telephonyManager.getSimState();
+                        int secondarySim = TelephonyManager.SIM_STATE_ABSENT;
+                        if (Build.VERSION.SDK_INT >= 26) {
+                            primarySim = telephonyManager.getSimState(0);
+                            secondarySim = telephonyManager.getSimState(1);
+                        }
+                        if (primarySim != TelephonyManager.SIM_STATE_READY) {
+                            if (secondarySim != TelephonyManager.SIM_STATE_READY) {
+                                //Device has not Sim-Card which is ready
+                                Toast.makeText(v.getContext(), getResources().getText(R.string.invalid_sim), Toast.LENGTH_LONG).show();
+                                return;
+                            }
                         }
                     }
                 } catch (Exception ex) {
@@ -125,12 +127,14 @@ public class HomeFragment extends Fragment {
                 try {
                     while(true) {
                         Thread.sleep(1000);
-                        getActivity().runOnUiThread(new Runnable() {
-                            @Override
-                            public void run() {
-                                refreshButtonText();
-                            }
-                        });
+                        if(getActivity() != null) {
+                            getActivity().runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    refreshButtonText();
+                                }
+                            });
+                        }
                     }
                 }
                 catch (Exception ex){ex.printStackTrace();}

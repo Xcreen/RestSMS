@@ -42,26 +42,31 @@ public class AboutAppFragment extends Fragment {
 
         //Check if has SMS-Permission
         ImageView smsPermissionResultImageView = rootView.findViewById(R.id.about_app_smspermission_result_iv);
-        smsPermissionResultImageView.setColorFilter(getContext().getColor(R.color.colorError), PorterDuff.Mode.SRC_ATOP);
-        try {
-            if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.SEND_SMS) == PackageManager.PERMISSION_GRANTED) {
-                smsPermissionResultImageView.setImageDrawable(getContext().getDrawable(R.drawable.check_yes));
-                smsPermissionResultImageView.setColorFilter(getContext().getColor(R.color.colorPrimary), PorterDuff.Mode.SRC_ATOP);
+        if(getContext() != null) {
+            smsPermissionResultImageView.setColorFilter(getContext().getColor(R.color.colorError), PorterDuff.Mode.SRC_ATOP);
+            try {
+                if (ActivityCompat.checkSelfPermission(getContext(), Manifest.permission.SEND_SMS) == PackageManager.PERMISSION_GRANTED) {
+                    smsPermissionResultImageView.setImageDrawable(getContext().getDrawable(R.drawable.check_yes));
+                    smsPermissionResultImageView.setColorFilter(getContext().getColor(R.color.colorPrimary), PorterDuff.Mode.SRC_ATOP);
+                }
+            } catch (Exception ex) {
+                ex.printStackTrace();
             }
-        }
-        catch (Exception ex){
-            ex.printStackTrace();
         }
 
         //Check Sim-State
         int primarySim = TelephonyManager.SIM_STATE_ABSENT;
         int secondarySim = TelephonyManager.SIM_STATE_ABSENT;
         try {
-            TelephonyManager telephonyManager = (TelephonyManager) getContext().getSystemService(Context.TELEPHONY_SERVICE);
-            primarySim = telephonyManager.getSimState();
-            if (Build.VERSION.SDK_INT >= 26) {
-                primarySim = telephonyManager.getSimState(0);
-                secondarySim = telephonyManager.getSimState(1);
+            if(getContext() != null) {
+                TelephonyManager telephonyManager = (TelephonyManager) getContext().getSystemService(Context.TELEPHONY_SERVICE);
+                if(telephonyManager != null) {
+                    primarySim = telephonyManager.getSimState();
+                    if (Build.VERSION.SDK_INT >= 26) {
+                        primarySim = telephonyManager.getSimState(0);
+                        secondarySim = telephonyManager.getSimState(1);
+                    }
+                }
             }
         }
         catch (Exception ex){

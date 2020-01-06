@@ -88,7 +88,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
     }
 
-    @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
         //Remove all Option-Menu-Items
@@ -97,9 +96,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         //Set new Fragment
         Fragment fragment;
         switch(item.getItemId()){
-            case R.id.nav_home:
-                fragment = new HomeFragment();
-                break;
             case R.id.nav_settings:
                 fragment = new SettingsFragment();
                 break;
@@ -153,6 +149,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             case R.id.nav_about:
                 fragment = new AboutFragment();
                 break;
+            case R.id.nav_home:
             default:
                 fragment = new HomeFragment();
                 break;

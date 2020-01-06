@@ -1,7 +1,6 @@
 package net.xcreen.restsms.server;
 
 import android.telephony.SmsManager;
-import android.util.Log;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -10,7 +9,6 @@ import com.google.i18n.phonenumbers.Phonenumber;
 
 import java.io.IOException;
 
-import javax.servlet.ServletException;
 import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -28,7 +26,7 @@ public class SMSServlet extends HttpServlet {
     }
 
     @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException {
         serverLogging.log("info", "SMS-Servlet [" + request.getMethod() + "] Request /send From: " + request.getRemoteAddr());
         //Init Gson/PhoneNumberUtil
         GsonBuilder gsonBuilder = new GsonBuilder();

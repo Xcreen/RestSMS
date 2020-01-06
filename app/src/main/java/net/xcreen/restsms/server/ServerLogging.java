@@ -17,7 +17,7 @@ import java.util.Locale;
 
 public class ServerLogging {
 
-    private String filepath = null;
+    private String filepath;
     private Context context;
 
     public ServerLogging(String filepath, Context context){
@@ -56,8 +56,6 @@ public class ServerLogging {
                 Log.d("Server-Logging", entry);
                 break;
             case "info":
-                Log.i("Server-Logging", entry);
-                break;
             default:
                 Log.i("Server-Logging", entry);
                 break;

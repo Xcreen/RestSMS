@@ -45,16 +45,17 @@ public class LoggingFragment extends Fragment {
             String logDirPath = getContext().getFilesDir().getAbsolutePath() + File.separator + "logs";
             File logDir = new File(logDirPath);
             File[] logFiles = logDir.listFiles();
-            //Add Log-files
-            for(File logFile : logFiles)
-                if (logFile.isFile()) {
-                    //Read Line-Count
-                    FileReader fileReader = new FileReader(logFile.getAbsolutePath());
-                    LineNumberReader lineNumberReader = new LineNumberReader(fileReader);
-                    while(lineNumberReader.skip(Long.MAX_VALUE) > 0){}
-                    //Add Log-File
-                    dataModels.add(new LoggingDataModel(logFile.getName(), logFile.getAbsolutePath(), lineNumberReader.getLineNumber()));
-                }
+            if(logFiles != null) {
+                //Add Log-files
+                for (File logFile : logFiles)
+                    if (logFile.isFile()) {
+                        //Read Line-Count
+                        FileReader fileReader = new FileReader(logFile.getAbsolutePath());
+                        LineNumberReader lineNumberReader = new LineNumberReader(fileReader);
+                        //Add Log-File
+                        dataModels.add(new LoggingDataModel(logFile.getName(), logFile.getAbsolutePath(), lineNumberReader.getLineNumber()));
+                    }
+            }
         }
         catch (Exception ex){
             ex.printStackTrace();
@@ -69,8 +70,10 @@ public class LoggingFragment extends Fragment {
                 //Show LogFile
                 String filePath = dataModels.get(position).getPath();
                 Fragment loggingFragment = LoggingDetailFragment.newInstance(filePath);
-                FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
-                fragmentTransaction.replace(R.id.main_framelayout, loggingFragment).addToBackStack("fragBack").commit();
+                if(getFragmentManager() != null) {
+                    FragmentTransaction fragmentTransaction = getFragmentManager().beginTransaction();
+                    fragmentTransaction.replace(R.id.main_framelayout, loggingFragment).addToBackStack("fragBack").commit();
+                }
             }
         });
 
@@ -146,8 +149,6 @@ class LoggingDataModel{
 
 class LoggingCustomListViewAdapter extends ArrayAdapter<LoggingDataModel> {
 
-    private ArrayList<LoggingDataModel> dataset;
-    private Context context;
 
     private static class ViewHolder {
         TextView nameTextView;
@@ -156,8 +157,6 @@ class LoggingCustomListViewAdapter extends ArrayAdapter<LoggingDataModel> {
 
     public LoggingCustomListViewAdapter(ArrayList<LoggingDataModel> dataset, Context context) {
         super(context, R.layout.about_third_party_list_item, dataset);
-        this.dataset = dataset;
-        this.context = context;
     }
 
     @Override
@@ -177,13 +176,11 @@ class LoggingCustomListViewAdapter extends ArrayAdapter<LoggingDataModel> {
             viewHolder = (ViewHolder) convertView.getTag();
         }
 
-        try {
+        if(dataModel != null) {
             viewHolder.nameTextView.setText(dataModel.getName());
             viewHolder.versionTextView.setText(getContext().getResources().getString(R.string.logging_log_entries, dataModel.getLineCount()));
         }
-        catch (Exception ex){
-            ex.printStackTrace();
-        }
+
         return convertView;
     }
 }

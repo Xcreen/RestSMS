@@ -13,7 +13,6 @@ import android.widget.Button;
 
 import net.xcreen.restsms.R;
 
-
 public class AboutMeFragment extends Fragment {
 
     @Override
@@ -33,8 +32,10 @@ public class AboutMeFragment extends Fragment {
                 builder.setToolbarColor(getResources().getColor(R.color.colorDarkBlack, null));
                 CustomTabsIntent customTabsIntent = builder.build();
 
-                //Open Paypal Website
-                customTabsIntent.launchUrl(getContext(), Uri.parse("https://www.paypal.me/xcreen"));
+                if(getContext() != null) {
+                    //Open Paypal Website
+                    customTabsIntent.launchUrl(getContext(), Uri.parse("https://www.paypal.me/xcreen"));
+                }
             }
         });
 
@@ -46,8 +47,10 @@ public class AboutMeFragment extends Fragment {
                 builder.setToolbarColor(getResources().getColor(R.color.colorDarkBlack, null));
                 CustomTabsIntent customTabsIntent = builder.build();
 
-                //Open Github Website
-                customTabsIntent.launchUrl(getContext(), Uri.parse("https://github.com/Xcreen"));
+                if(getContext() != null) {
+                    //Open Github Website
+                    customTabsIntent.launchUrl(getContext(), Uri.parse("https://github.com/Xcreen"));
+                }
             }
         });
 

@@ -21,9 +21,7 @@ import java.util.ArrayList;
 
 public class AboutThirdPartyLibrarysFragment extends Fragment {
 
-    private ListView listView;
-    ArrayList<DataModel> dataModels;
-    private CustomListViewAdapter customListViewAdapter;
+    private ArrayList<DataModel> dataModels;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -42,8 +40,8 @@ public class AboutThirdPartyLibrarysFragment extends Fragment {
         dataModels.add(new DataModel("libphonenumber", "8.9.14 / Used validating/parsing phone-numbers.", "https://github.com/googlei18n/libphonenumber"));
         dataModels.add(new DataModel("Slf4j-simple", "1.7.25 / Used Jetty-Logging", "https://www.slf4j.org/"));
 
-        customListViewAdapter = new CustomListViewAdapter(dataModels, getActivity());
-        listView = rootView.findViewById(R.id.about_third_party_list_view);
+        CustomListViewAdapter customListViewAdapter = new CustomListViewAdapter(dataModels, getActivity());
+        ListView listView = rootView.findViewById(R.id.about_third_party_list_view);
         listView.setAdapter(customListViewAdapter);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -54,7 +52,7 @@ public class AboutThirdPartyLibrarysFragment extends Fragment {
 
                 //Open Library Website
                 String url = dataModels.get(position).getUrl();
-                if(url != null){
+                if(url != null && getContext() != null){
                     customTabsIntent.launchUrl(getContext(), Uri.parse(url));
                 }
             }
@@ -91,8 +89,6 @@ class DataModel{
 
 class CustomListViewAdapter extends ArrayAdapter<DataModel> {
 
-    private ArrayList<DataModel> dataset;
-    private Context context;
 
     private static class ViewHolder {
         TextView nameTextView;
@@ -101,8 +97,6 @@ class CustomListViewAdapter extends ArrayAdapter<DataModel> {
 
     public CustomListViewAdapter(ArrayList<DataModel> dataset, Context context) {
         super(context, R.layout.about_third_party_list_item, dataset);
-        this.dataset = dataset;
-        this.context = context;
     }
 
     @Override
@@ -122,9 +116,10 @@ class CustomListViewAdapter extends ArrayAdapter<DataModel> {
             viewHolder = (ViewHolder) convertView.getTag();
         }
 
-        viewHolder.nameTextView.setText(dataModel.getName());
-        viewHolder.versionTextView.setText(dataModel.getVersion());
-
+        if(dataModel != null) {
+            viewHolder.nameTextView.setText(dataModel.getName());
+            viewHolder.versionTextView.setText(dataModel.getVersion());
+        }
         return convertView;
     }
 }
