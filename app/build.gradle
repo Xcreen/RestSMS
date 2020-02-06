@@ -3,7 +3,7 @@ apply plugin: 'io.fabric'
 
 android {
     compileSdkVersion 29
-    buildToolsVersion "29.0.2"
+    buildToolsVersion "29.0.3"
     defaultConfig {
         applicationId "net.xcreen.restsms"
         minSdkVersion 23
