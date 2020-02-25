@@ -42,7 +42,7 @@ public class HomeFragment extends Fragment {
         appContext = (AppContext) getActivity().getApplication();
         //Set Server-Logging for Server
         ServerLogging serverLogging = new ServerLogging(getContext().getFilesDir().getAbsolutePath(), getContext());
-        appContext.smsServer.setServerLogging(serverLogging);
+        appContext.getSmsServer().setServerLogging(serverLogging);
 
         toggleServerBtn = rootView.findViewById(R.id.toggle_server_btn);
         toggleServerBtn.setOnClickListener(new View.OnClickListener() {
@@ -100,7 +100,7 @@ public class HomeFragment extends Fragment {
                         new Thread(new Runnable() {
                             @Override
                             public void run() {
-                                while(!appContext.smsServer.isRunning()){
+                                while(!appContext.getSmsServer().isRunning()){
                                     try {
                                         Thread.sleep(100);
                                     }

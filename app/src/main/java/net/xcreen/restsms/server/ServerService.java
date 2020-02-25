@@ -45,7 +45,7 @@ public class ServerService extends Service {
         String intentAction = intent.getAction();
         if(intentAction != null && intentAction.equals(START_ACTION)) {
             //Check if Server is already running or in process
-            if (!appContext.smsServer.isRunning() && !appContext.smsServer.isStopping()) {
+            if (!appContext.getSmsServer().isRunning() && !appContext.getSmsServer().isStopping()) {
                 startService();
             }
         }
@@ -64,7 +64,7 @@ public class ServerService extends Service {
         //Set Port
         SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
         int serverPort = sharedPref.getInt("server_port", 8080);
-        appContext.smsServer.setPort(serverPort);
+        appContext.getSmsServer().setPort(serverPort);
 
         //Set Stop-Button
         Intent stopIntent = new Intent(this, ServerService.class);
@@ -98,7 +98,7 @@ public class ServerService extends Service {
                 try {
                     //Start Server
                     String cacheDir = getCacheDir().getAbsolutePath();
-                    appContext.smsServer.start(cacheDir);
+                    appContext.getSmsServer().start(cacheDir);
                 }
                 catch(BindException bindEx){
                     //Failed to bind on the given port
@@ -109,7 +109,7 @@ public class ServerService extends Service {
                             Toast.makeText(getApplicationContext(), getResources().getText(R.string.server_failed_bindex), Toast.LENGTH_LONG).show();
                         }
                     });
-                    appContext.smsServer.getServerLogging().log("error", "Server cant start up on this port (Bind-Exception)!");
+                    appContext.getSmsServer().getServerLogging().log("error", "Server cant start up on this port (Bind-Exception)!");
                 }
                 catch (Exception ex){
                     ex.printStackTrace();
@@ -120,7 +120,7 @@ public class ServerService extends Service {
                             Toast.makeText(getApplicationContext(), getResources().getText(R.string.server_failed_to_start), Toast.LENGTH_LONG).show();
                         }
                     });
-                    appContext.smsServer.getServerLogging().log("error", "Failed to start up server!");
+                    appContext.getSmsServer().getServerLogging().log("error", "Failed to start up server!");
                 }
                 finally {
                     //Stop Service
@@ -138,8 +138,8 @@ public class ServerService extends Service {
     public void onDestroy() {
         Log.i("ServerService", "onDestroy()");
         try {
-            if(appContext.smsServer.isRunning() && !appContext.smsServer.isStopping()) {
-                appContext.smsServer.stop();
+            if(appContext.getSmsServer().isRunning() && !appContext.getSmsServer().isStopping()) {
+                appContext.getSmsServer().stop();
             }
         }
         catch (Exception ex){
