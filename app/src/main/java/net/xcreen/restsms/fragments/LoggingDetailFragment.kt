@@ -9,7 +9,6 @@ import androidx.fragment.app.Fragment
 import net.xcreen.restsms.R
 import java.io.BufferedReader
 import java.io.File
-import java.io.FileReader
 
 class LoggingDetailFragment : Fragment() {
     private var logFilePath: String? = null
@@ -31,12 +30,8 @@ class LoggingDetailFragment : Fragment() {
         headlineTextview.text = resources.getString(R.string.logging_detail_headline, logFile.name)
         val loggingTextview = rootView.findViewById<TextView>(R.id.logging_detail_textview)
         try {
-            val bufferedReader = BufferedReader(FileReader(logFile))
-            var line = ""
-            var logFileText = ""
-            while (bufferedReader.readLine().also { line = it } != null) {
-                logFileText += line + "\n"
-            }
+            val fileInputStream = File(logFile.toURI()).inputStream()
+            val logFileText = fileInputStream.bufferedReader().use(BufferedReader::readText)
             loggingTextview.text = logFileText
         }
         catch (ex: Exception) {
