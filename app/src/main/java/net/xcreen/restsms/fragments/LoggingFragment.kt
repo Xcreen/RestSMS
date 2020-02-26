@@ -7,8 +7,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.AdapterView.OnItemClickListener
-import android.widget.AdapterView.OnItemLongClickListener
 import android.widget.ArrayAdapter
 import android.widget.ListView
 import android.widget.TextView
@@ -36,8 +34,8 @@ class LoggingFragment : Fragment() {
                 for (logFile in logFiles){
                     if (logFile.isFile) {
                         //Read Line-Count
-                        val fileReader = FileReader(logFile.absolutePath)
-                        val lineNumberReader = LineNumberReader(fileReader)
+                        val lineNumberReader = LineNumberReader(FileReader(logFile.absolutePath))
+                        while(lineNumberReader.skip(Int.MAX_VALUE.toLong()) > 0)
                         //Add Log-File
                         dataModels.add(LoggingDataModel(logFile.name, logFile.absolutePath, lineNumberReader.lineNumber))
                     }
