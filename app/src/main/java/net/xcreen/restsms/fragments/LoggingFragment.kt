@@ -26,6 +26,7 @@ class LoggingFragment : Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val rootView = inflater.inflate(R.layout.fragment_logging, container, false)
         try {
+            dataModels.clear()
             //Get all Logs
             val logDirPath = context!!.filesDir.absolutePath + File.separator + "logs"
             val logDir = File(logDirPath)
