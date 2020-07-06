@@ -28,6 +28,7 @@ class HomeFragment : Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val rootView = inflater.inflate(R.layout.fragment_home, container, false)
+        val context = context;
         appContext = activity!!.application as AppContext
         //Set Server-Logging for Server
         val serverLogging = ServerLogging(context!!.filesDir.absolutePath, context)
