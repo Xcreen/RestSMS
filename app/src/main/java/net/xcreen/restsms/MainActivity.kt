@@ -96,7 +96,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                     val loggingDeleteAllItem = optionsMenu!!.add(Menu.NONE, OPTION_ITEM_LOGGING_DELETE_ALL, 1, R.string.logging_options_delete_all)
                     loggingDeleteAllItem.setShowAsActionFlags(MenuItem.SHOW_AS_ACTION_NEVER)
                     loggingDeleteAllItem.setOnMenuItemClickListener {
-                        val dialogClickListener = DialogInterface.OnClickListener { dialog, which ->
+                        val dialogClickListener = DialogInterface.OnClickListener { _, which ->
                             when (which) {
                                 DialogInterface.BUTTON_POSITIVE -> {
                                     //Get all Logs

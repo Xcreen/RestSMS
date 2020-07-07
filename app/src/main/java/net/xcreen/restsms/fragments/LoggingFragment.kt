@@ -28,7 +28,7 @@ class LoggingFragment : Fragment() {
         try {
             dataModels.clear()
             //Get all Logs
-            val logDirPath = context!!.filesDir.absolutePath + File.separator + "logs"
+            val logDirPath = requireContext().filesDir.absolutePath + File.separator + "logs"
             val logDir = File(logDirPath)
             val logFiles = logDir.listFiles()
             if (logFiles != null) { //Add Log-files
@@ -49,19 +49,17 @@ class LoggingFragment : Fragment() {
         customListViewAdapter = LoggingCustomListViewAdapter(dataModels, activity)
         val listView = rootView.findViewById<ListView>(R.id.logging_list_view)
         listView.adapter = customListViewAdapter
-        listView.setOnItemClickListener { parent, view, position, id ->
+        listView.setOnItemClickListener { _, _, position, _ ->
             //Show LogFile
             val filePath = dataModels[position].path
             val loggingFragment: Fragment = newInstance(filePath)
-            if (fragmentManager != null) {
-                val fragmentTransaction = fragmentManager!!.beginTransaction()
-                fragmentTransaction.replace(R.id.main_framelayout, loggingFragment).addToBackStack("fragBack").commit()
-            }
+            val fragmentTransaction = parentFragmentManager.beginTransaction()
+            fragmentTransaction.replace(R.id.main_framelayout, loggingFragment).addToBackStack("fragBack").commit()
         }
-        listView.setOnItemLongClickListener { parent, view, position, id ->
+        listView.setOnItemLongClickListener { _, _, position, _ ->
             val filePath = dataModels[position].path
             val logFile = File(filePath)
-            val dialogClickListener = DialogInterface.OnClickListener { dialog, which ->
+            val dialogClickListener = DialogInterface.OnClickListener { _, which ->
                 when (which) {
                     DialogInterface.BUTTON_POSITIVE ->  //Delete File
                         if (logFile.delete()) { //Remove Item from ListView

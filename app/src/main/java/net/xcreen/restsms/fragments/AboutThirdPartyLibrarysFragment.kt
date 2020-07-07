@@ -29,14 +29,14 @@ class AboutThirdPartyLibrarysFragment : Fragment() {
         val thirdPartyLibraryCustomListViewAdapter = ThirdPartyLibraryCustomListViewAdapter(thirdPartyLibraryDataModels, activity)
         val listView = rootView.findViewById<ListView>(R.id.about_third_party_list_view)
         listView.adapter = thirdPartyLibraryCustomListViewAdapter
-        listView.onItemClickListener = OnItemClickListener { parent, view, position, id ->
+        listView.onItemClickListener = OnItemClickListener { _, _, position, _ ->
             val builder = CustomTabsIntent.Builder()
             builder.setToolbarColor(resources.getColor(R.color.colorDarkBlack, null))
             val customTabsIntent = builder.build()
             //Open Library Website
             val url = thirdPartyLibraryDataModels[position].url
             if (context != null) {
-                customTabsIntent.launchUrl(context!!, Uri.parse(url))
+                customTabsIntent.launchUrl(requireContext(), Uri.parse(url))
             }
         }
         return rootView

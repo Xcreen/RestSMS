@@ -23,7 +23,7 @@ class AboutFragment : Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val rootView = inflater.inflate(R.layout.fragment_about, container, false)
         if (activity != null) { //Set Tabs
-            tabLayout = TabLayout(activity!!)
+            tabLayout = TabLayout(requireActivity())
             tabLayout!!.addTab(tabLayout!!.newTab().setText(resources.getText(R.string.about_about_me)))
             tabLayout!!.addTab(tabLayout!!.newTab().setText(resources.getText(R.string.about_app_information)))
             tabLayout!!.addTab(tabLayout!!.newTab().setText(resources.getText(R.string.about_third_party_librarys)))
@@ -38,10 +38,10 @@ class AboutFragment : Fragment() {
                 override fun onTabReselected(tab: TabLayout.Tab) {}
             })
             //Add TabLayout to the AppBarLayout
-            mainAppBarLayout = activity!!.findViewById(R.id.appbar_layout)
+            mainAppBarLayout = requireActivity().findViewById(R.id.appbar_layout)
             mainAppBarLayout!!.addView(tabLayout, LinearLayoutCompat.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT))
             //Set Page-Adapter to ViewPager
-            val pagerAdapter = FragmentPageAdapter(fragmentManager, tabLayout!!.tabCount)
+            val pagerAdapter = FragmentPageAdapter(parentFragmentManager, tabLayout!!.tabCount)
             viewPager = rootView.findViewById(R.id.about_view_pager)
             viewPager!!.adapter = pagerAdapter
             viewPager!!.addOnPageChangeListener(TabLayoutOnPageChangeListener(tabLayout))
