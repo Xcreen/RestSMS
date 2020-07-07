@@ -17,10 +17,10 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <ImageView
-            android:id="@+id/nav_profile_image"
+            android:id="@+id/nav_logo_image"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:srcCompat="@drawable/profile" />
+            app:srcCompat="@drawable/nav_logo" />
     </androidx.cardview.widget.CardView>
 
     <TextView
