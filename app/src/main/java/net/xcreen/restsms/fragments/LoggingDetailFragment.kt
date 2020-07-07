@@ -16,7 +16,7 @@ class LoggingDetailFragment : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         try {
-            logFilePath = arguments!!.getString("logfilepath")
+            logFilePath = requireArguments().getString("logfilepath")
         }
         catch (ex: Exception) {
             ex.printStackTrace()

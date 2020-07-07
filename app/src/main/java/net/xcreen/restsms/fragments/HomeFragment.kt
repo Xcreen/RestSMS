@@ -28,10 +28,10 @@ class HomeFragment : Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val rootView = inflater.inflate(R.layout.fragment_home, container, false)
-        val context = context;
-        appContext = activity!!.application as AppContext
+        val context = requireContext();
+        appContext = requireActivity().application as AppContext
         //Set Server-Logging for Server
-        val serverLogging = ServerLogging(context!!.filesDir.absolutePath, context)
+        val serverLogging = ServerLogging(context.filesDir.absolutePath, context)
         appContext!!.smsServer.serverLogging = serverLogging
         toggleServerBtn = rootView.findViewById(R.id.toggle_server_btn)
         toggleServerBtn!!.setOnClickListener { v ->
@@ -39,7 +39,7 @@ class HomeFragment : Fragment() {
             if (ActivityCompat.checkSelfPermission(v.context, Manifest.permission.SEND_SMS) != PackageManager.PERMISSION_GRANTED) { //Show Error Toast
                 Toast.makeText(v.context, resources.getText(R.string.no_sms_permission), Toast.LENGTH_LONG).show()
                 //Request Permission
-                ActivityCompat.requestPermissions(activity!!, arrayOf(Manifest.permission.SEND_SMS), SMS_PERMISSION_REQUEST)
+                ActivityCompat.requestPermissions(requireActivity(), arrayOf(Manifest.permission.SEND_SMS), SMS_PERMISSION_REQUEST)
                 return@setOnClickListener
             }
             //Check if Device has a Sim-Card
@@ -99,9 +99,7 @@ class HomeFragment : Fragment() {
             try {
                 while (true) {
                     Thread.sleep(1000)
-                    if (activity != null) {
-                        activity!!.runOnUiThread { refreshButtonText() }
-                    }
+                    requireActivity().runOnUiThread { refreshButtonText() }
                 }
             } catch (ex: Exception) {
                 ex.printStackTrace()

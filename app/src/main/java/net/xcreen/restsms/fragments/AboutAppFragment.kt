@@ -30,28 +30,24 @@ class AboutAppFragment : Fragment() {
         versionNameResultTV.text = BuildConfig.VERSION_CODE.toString()
         //Check if has SMS-Permission
         val smsPermissionResultImageView = rootView.findViewById<ImageView>(R.id.about_app_smspermission_result_iv)
-        if (context != null) {
-            smsPermissionResultImageView.setColorFilter(context!!.getColor(R.color.colorError), PorterDuff.Mode.SRC_ATOP)
-            try {
-                if (ActivityCompat.checkSelfPermission(context!!, Manifest.permission.SEND_SMS) == PackageManager.PERMISSION_GRANTED) {
-                    smsPermissionResultImageView.setImageDrawable(context!!.getDrawable(R.drawable.check_yes))
-                    smsPermissionResultImageView.setColorFilter(context!!.getColor(R.color.colorPrimary), PorterDuff.Mode.SRC_ATOP)
-                }
-            } catch (ex: Exception) {
-                ex.printStackTrace()
+        try {
+            smsPermissionResultImageView.setColorFilter(requireContext().getColor(R.color.colorError), PorterDuff.Mode.SRC_ATOP)
+            if (ActivityCompat.checkSelfPermission(requireContext(), Manifest.permission.SEND_SMS) == PackageManager.PERMISSION_GRANTED) {
+                smsPermissionResultImageView.setImageDrawable(requireContext().getDrawable(R.drawable.check_yes))
+                smsPermissionResultImageView.setColorFilter(requireContext().getColor(R.color.colorPrimary), PorterDuff.Mode.SRC_ATOP)
             }
+        } catch (ex: Exception) {
+            ex.printStackTrace()
         }
         //Check Sim-State
         var primarySim = TelephonyManager.SIM_STATE_ABSENT
         var secondarySim = TelephonyManager.SIM_STATE_ABSENT
         try {
-            if (context != null) {
-                val telephonyManager = context!!.getSystemService(Context.TELEPHONY_SERVICE) as TelephonyManager
-                primarySim = telephonyManager.simState
-                if (Build.VERSION.SDK_INT >= 26) {
-                    primarySim = telephonyManager.getSimState(0)
-                    secondarySim = telephonyManager.getSimState(1)
-                }
+            val telephonyManager = requireContext().getSystemService(Context.TELEPHONY_SERVICE) as TelephonyManager
+            primarySim = telephonyManager.simState
+            if (Build.VERSION.SDK_INT >= 26) {
+                primarySim = telephonyManager.getSimState(0)
+                secondarySim = telephonyManager.getSimState(1)
             }
         } catch (ex: Exception) {
             ex.printStackTrace()
