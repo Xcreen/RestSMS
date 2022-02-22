@@ -62,7 +62,13 @@ class ServerService : Service() {
         //Set Stop-Button
         val stopIntent = Intent(this, ServerService::class.java)
         stopIntent.action = STOP_ACTION
-        val pendingStopIntent = PendingIntent.getService(this, 0, stopIntent, 0)
+        var pendingStopIntent: PendingIntent
+        if (Build.VERSION.SDK_INT >= 31) {
+            pendingStopIntent = PendingIntent.getService(this, 0, stopIntent, PendingIntent.FLAG_MUTABLE)
+        }
+        else {
+            pendingStopIntent = PendingIntent.getService(this, 0, stopIntent, 0)
+        }
 
         //Setup Notification-Channel
         if (Build.VERSION.SDK_INT >= 26) {
