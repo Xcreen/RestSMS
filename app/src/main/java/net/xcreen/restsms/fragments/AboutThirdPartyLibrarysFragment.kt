@@ -24,7 +24,7 @@ class AboutThirdPartyLibrarysFragment : Fragment() {
         thirdPartyLibraryDataModels.add(ThirdPartyLibraryDataModel("FontAwesome", "4.7.0 / Used for Navigation-Icons", "https://fontawesome.com/"))
         thirdPartyLibraryDataModels.add(ThirdPartyLibraryDataModel("Jetty", "9.2.30.v20200428 / Used for the HTTP-Server", "https://www.eclipse.org/jetty/"))
         thirdPartyLibraryDataModels.add(ThirdPartyLibraryDataModel("GSON", "2.9.0 / Used for JSON/Java-Object serialization/deserialization", "https://github.com/google/gson"))
-        thirdPartyLibraryDataModels.add(ThirdPartyLibraryDataModel("libphonenumber", "8.12.11 / Used validating/parsing phone-numbers.", "https://github.com/googlei18n/libphonenumber"))
+        thirdPartyLibraryDataModels.add(ThirdPartyLibraryDataModel("libphonenumber", "8.12.43 / Used validating/parsing phone-numbers.", "https://github.com/googlei18n/libphonenumber"))
         thirdPartyLibraryDataModels.add(ThirdPartyLibraryDataModel("Slf4j-simple", "1.7.30 / Used Jetty-Logging", "https://www.slf4j.org/"))
         val thirdPartyLibraryCustomListViewAdapter = ThirdPartyLibraryCustomListViewAdapter(thirdPartyLibraryDataModels, activity)
         val listView = rootView.findViewById<ListView>(R.id.about_third_party_list_view)
