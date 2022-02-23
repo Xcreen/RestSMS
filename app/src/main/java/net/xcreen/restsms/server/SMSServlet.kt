@@ -4,6 +4,7 @@ import android.telephony.SmsManager
 import com.google.gson.GsonBuilder
 import com.google.i18n.phonenumbers.PhoneNumberUtil
 import com.google.i18n.phonenumbers.Phonenumber.PhoneNumber
+import net.xcreen.restsms.AppContext
 import java.io.IOException
 import javax.servlet.annotation.MultipartConfig
 import javax.servlet.annotation.WebServlet
@@ -54,7 +55,7 @@ class SMSServlet(private val serverLogging: ServerLogging) : HttpServlet() {
             return
         }
         //Send SMS
-        val smsManager = SmsManager.getDefault()
+        val smsManager = AppContext.appContext.getSystemService(SmsManager::class.java)
         smsManager.sendTextMessage(phoneUtil.format(phoneNumber, PhoneNumberUtil.PhoneNumberFormat.INTERNATIONAL), null, message, null, null)
         //Show Success message
         response.writer.println(gson.toJson(SMSResponse(true, null)))
