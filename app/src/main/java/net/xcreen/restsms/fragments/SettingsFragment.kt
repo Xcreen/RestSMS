@@ -1,5 +1,6 @@
 package net.xcreen.restsms.fragments
 
+import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -16,7 +17,8 @@ class SettingsFragment : Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val rootView = inflater.inflate(R.layout.fragment_settings, container, false)
-        val sharedPref = PreferenceManager.getDefaultSharedPreferences(context)
+        val currentContext: Context = context as Context
+        val sharedPref = PreferenceManager.getDefaultSharedPreferences(currentContext)
         val portEditText = rootView.findViewById<EditText>(R.id.settings_port_edittext)
         val openBrowserCheckBox = rootView.findViewById<CheckBox>(R.id.settings_open_browser_checkbox)
         val disableLoggingCheckBox = rootView.findViewById<CheckBox>(R.id.settings_disable_logging_checkbox)
