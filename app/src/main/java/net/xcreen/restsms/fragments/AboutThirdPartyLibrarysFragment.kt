@@ -10,6 +10,7 @@ import android.widget.AdapterView.OnItemClickListener
 import android.widget.ArrayAdapter
 import android.widget.ListView
 import android.widget.TextView
+import androidx.browser.customtabs.CustomTabColorSchemeParams
 import androidx.browser.customtabs.CustomTabsIntent
 import androidx.fragment.app.Fragment
 import net.xcreen.restsms.R
@@ -30,8 +31,12 @@ class AboutThirdPartyLibrarysFragment : Fragment() {
         val listView = rootView.findViewById<ListView>(R.id.about_third_party_list_view)
         listView.adapter = thirdPartyLibraryCustomListViewAdapter
         listView.onItemClickListener = OnItemClickListener { _, _, position, _ ->
+            val customTabColorSchemeParams = CustomTabColorSchemeParams.Builder()
+                .setToolbarColor(resources.getColor(R.color.colorDarkBlack, null))
+                .setNavigationBarColor(resources.getColor(R.color.colorDarkBlack, null))
+                .build()
             val builder = CustomTabsIntent.Builder()
-            builder.setToolbarColor(resources.getColor(R.color.colorDarkBlack, null))
+            builder.setDefaultColorSchemeParams(customTabColorSchemeParams)
             val customTabsIntent = builder.build()
             //Open Library Website
             val url = thirdPartyLibraryDataModels[position].url
