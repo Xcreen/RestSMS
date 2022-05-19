@@ -1,5 +1,6 @@
 package net.xcreen.restsms.server
 
+import android.os.Build
 import android.telephony.SmsManager
 import com.google.gson.GsonBuilder
 import com.google.i18n.phonenumbers.PhoneNumberUtil
@@ -55,7 +56,11 @@ class SMSServlet(private val serverLogging: ServerLogging) : HttpServlet() {
             return
         }
         //Send SMS
-        val smsManager = AppContext.appContext.getSystemService(SmsManager::class.java)
+        val smsManager = if(Build.VERSION.SDK_INT >= 31) {
+            AppContext.appContext.getSystemService(SmsManager::class.java)
+        } else {
+            SmsManager.getDefault()
+        }
         smsManager.sendTextMessage(phoneUtil.format(phoneNumber, PhoneNumberUtil.PhoneNumberFormat.INTERNATIONAL), null, message, null, null)
         //Show Success message
         response.writer.println(gson.toJson(SMSResponse(true, null)))
