@@ -33,7 +33,7 @@ dependencies {
     implementation "org.eclipse.jetty:jetty-server:$jetty_version"
     implementation "org.eclipse.jetty:jetty-servlet:$jetty_version"
     implementation 'com.google.code.gson:gson:2.9.0'
-    implementation 'com.googlecode.libphonenumber:libphonenumber:8.12.43'
+    implementation 'com.googlecode.libphonenumber:libphonenumber:8.12.48'
     implementation 'org.slf4j:slf4j-simple:1.7.36'
     implementation 'androidx.browser:browser:1.4.0'
     implementation 'androidx.appcompat:appcompat:1.4.1'
