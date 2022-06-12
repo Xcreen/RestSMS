@@ -4,6 +4,11 @@ The RestSMS-App allows you to send SMS via Webservice from your Android-Device.
 
 ![Architecture](diagram_draw.io.png "RestSMS API Architecture")
 
+[<img src="https://gitlab.com/IzzyOnDroid/repo/-/raw/master/assets/IzzyOnDroid.png"
+     alt="Get it on IzzyOnDroid"
+     height="80">](https://apt.izzysoft.de/fdroid/index/apk/net.xcreen.restsms)
+or download the APK from [GitHub releases](https://github.com/Xcreen/RestSMS/releases)
+
 ### Requirements:
 - Android Version 6.0 or higher
 - Android-Device which is able to send SMS
