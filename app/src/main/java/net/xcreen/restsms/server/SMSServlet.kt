@@ -37,10 +37,10 @@ class SMSServlet(private val serverLogging: ServerLogging) : HttpServlet() {
             return
         }
         //Check if message is valid
-        if (message.isEmpty() || message.length > 160) {
-            serverLogging.log("error", "SMS-Servlet Invalid message (message-length: " + message.length + ")")
+        if (message.isEmpty()) {
+            serverLogging.log("error", "SMS-Servlet Message is empty")
             //Return Failing JSON
-            response.writer.println(gson.toJson(SMSResponse(false, "message should be between 1 and 160 chars!")))
+            response.writer.println(gson.toJson(SMSResponse(false, "message is empty!")))
             return
         }
         //Check if phoneno is valid and parse it
