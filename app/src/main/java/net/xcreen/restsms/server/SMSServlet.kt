@@ -61,7 +61,8 @@ class SMSServlet(private val serverLogging: ServerLogging) : HttpServlet() {
         } else {
             SmsManager.getDefault()
         }
-        smsManager.sendTextMessage(phoneUtil.format(phoneNumber, PhoneNumberUtil.PhoneNumberFormat.INTERNATIONAL), null, message, null, null)
+        val msgArray = smsManager.divideMessage(message)
+        smsManager.sendMultipartTextMessage(phoneUtil.format(phoneNumber, PhoneNumberUtil.PhoneNumberFormat.INTERNATIONAL), null, msgArray, null, null)
         //Show Success message
         response.writer.println(gson.toJson(SMSResponse(true, null)))
         serverLogging.log("info", "SMS-Servlet Successful send!")
