@@ -26,14 +26,15 @@ If you entered both commands, you would be able to send 100 SMS to a phonenumber
 The default server-url is `http://127.0.0.1:8080/`.  
 You can change the port in the settings-menu. The ip can be changed via the public network address, so you can access the api from anywhere.  
 To send a SMS you can point to your address and use the /send-Endpoint (eg. `http://127.0.0.1:8080/send`).  
-You have to send `phoneno` and `message` as post-parameter (you can use `form-data` and also `x-www-form-urlencoded`).  
+You have to send `phoneno` and `message` and if you enable authentication also `token` as post-parameter (you can use `form-data` and also `x-www-form-urlencoded`).  
 A response you get a JSON with a `success` and a `message` variable.
 
 #### Example Curl (x-www-form-urlencoded)
 message = "Hello World"  
 phoneno = "+4915100000000"
+token = "123"
 ```shell
-curl -X POST http://127.0.0.1:8080/send -H 'Cache-Control: no-cache' -H 'Content-Type: application/x-www-form-urlencoded' -d 'message=Hello%20World&phoneno=%2B4915100000000'
+curl -X POST http://127.0.0.1:8080/send -H 'Cache-Control: no-cache' -H 'Content-Type: application/x-www-form-urlencoded' -d 'message=Hello%20World&phoneno=%2B4915100000000&token=123'
 ```
 
 #### Successful Response

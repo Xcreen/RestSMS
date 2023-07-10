@@ -7,6 +7,8 @@ import javax.servlet.MultipartConfigElement
 
 class SMSServer {
     var port = 8080
+    var goodToken = ""
+    var authEnabled = false
     private var jettyServer: Server? = null
 
     /**
@@ -27,7 +29,7 @@ class SMSServer {
         jettyServer = Server(port)
         val servletContextHandler = ServletContextHandler()
         //Setup SMS-Servlet
-        val smsServletHolder = ServletHolder(SMSServlet(serverLogging!!))
+        val smsServletHolder = ServletHolder(SMSServlet(serverLogging!!, authEnabled, goodToken))
         smsServletHolder.registration.setMultipartConfig(MultipartConfigElement(tmpDir))
         servletContextHandler.addServlet(smsServletHolder, "/send")
         //Setup Welcome-Servlet
