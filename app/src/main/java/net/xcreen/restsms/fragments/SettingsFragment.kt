@@ -20,8 +20,10 @@ class SettingsFragment : Fragment() {
         val currentContext: Context = context as Context
         val sharedPref = PreferenceManager.getDefaultSharedPreferences(currentContext)
         val portEditText = rootView.findViewById<EditText>(R.id.settings_port_edittext)
+        val authToken = rootView.findViewById<EditText>(R.id.settings_token_edittext)
         val openBrowserCheckBox = rootView.findViewById<CheckBox>(R.id.settings_open_browser_checkbox)
         val disableLoggingCheckBox = rootView.findViewById<CheckBox>(R.id.settings_disable_logging_checkbox)
+        val enableAuth = rootView.findViewById<CheckBox>(R.id.settings_enable_auth)
         val saveBtn = rootView.findViewById<Button>(R.id.settings_save_btn)
         saveBtn.setOnClickListener { v ->
             var saved = false
@@ -44,11 +46,17 @@ class SettingsFragment : Fragment() {
             } else {
                 Toast.makeText(v.context, resources.getText(R.string.setting_invalid_port), Toast.LENGTH_SHORT).show()
             }
+            //Save token
+            editor.putString("server_token", authToken.text.toString())
+            editor.apply()
             //Save Open-Browser after Server-Start
             editor.putBoolean("open_browser_serverstart", openBrowserCheckBox.isChecked)
             editor.apply()
             //Save Disable-Logging-Option
             editor.putBoolean("disable_logging", disableLoggingCheckBox.isChecked)
+            editor.apply()
+            //Save Enable authentication
+            editor.putBoolean("enable_auth", enableAuth.isChecked)
             editor.apply()
             if (saved) {
                 Toast.makeText(v.context, resources.getText(R.string.setting_saved), Toast.LENGTH_SHORT).show()
@@ -56,6 +64,8 @@ class SettingsFragment : Fragment() {
         }
         //Set current Port
         portEditText.setText(sharedPref.getInt("server_port", 8080).toString())
+        //Set current Token
+        authToken.setText(sharedPref.getString("server_token", ""))
         //Set current "Open-Browser after Server-Start"-Option
         if (sharedPref.getBoolean("open_browser_serverstart", true)) {
             openBrowserCheckBox.isChecked = true
@@ -63,6 +73,10 @@ class SettingsFragment : Fragment() {
         //Set current "Disable Logging"-Option
         if (sharedPref.getBoolean("disable_logging", false)) {
             disableLoggingCheckBox.isChecked = true
+        }
+        //Set current "Disable authentication"-Option
+        if (sharedPref.getBoolean("enable_auth", false)) {
+            enableAuth.isChecked = true
         }
         return rootView
     }

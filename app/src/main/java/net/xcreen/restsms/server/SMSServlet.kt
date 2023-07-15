@@ -15,11 +15,10 @@ import javax.servlet.http.HttpServletResponse
 
 @WebServlet
 @MultipartConfig
-class SMSServlet(private val serverLogging: ServerLogging) : HttpServlet() {
-
+class SMSServlet(private val serverLogging: ServerLogging, private val authEnabled: Boolean , private val goodToken: String) : HttpServlet() {
     @Throws(IOException::class)
     override fun doPost(request: HttpServletRequest, response: HttpServletResponse) {
-        serverLogging.log("info", "SMS-Servlet [" + request.method + "] Request /send From: " + request.remoteAddr)
+        serverLogging.log("info", "SMS-Servlet [" + request.method + "] Request /send From: " + request.remoteAddr + "Used Token: " + request.getParameter("token"))
         //Init Gson/PhoneNumberUtil
         val gsonBuilder = GsonBuilder()
         val gson = gsonBuilder.create()
@@ -29,6 +28,20 @@ class SMSServlet(private val serverLogging: ServerLogging) : HttpServlet() {
         response.characterEncoding = "utf-8"
         val message = request.getParameter("message")
         val phoneno = request.getParameter("phoneno")
+        val token = request.getParameter("token")
+        //Check if authentication is enabled
+        if (authEnabled) {
+            if (token == null) {
+                serverLogging.log("error", "No token")
+                response.writer.println(gson.toJson(SMSResponse(false, "Authentication token is missing!")))
+                return
+            }
+            else if (token != goodToken) {
+                serverLogging.log("error", "Supplied Token in wrong")
+                response.writer.println(gson.toJson(SMSResponse(false, "Authentication token is wrong!")))
+                return
+            }
+        }
         //Check if post-parameters exists
         if (message == null || phoneno == null) {
             //Return Failing JSON
