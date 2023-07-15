@@ -72,7 +72,7 @@ class ServerService : Service() {
             pendingStopIntent = PendingIntent.getService(this, 0, stopIntent, PendingIntent.FLAG_MUTABLE)
         }
         else {
-            pendingStopIntent = PendingIntent.getService(this, 0, stopIntent, 0)
+            pendingStopIntent = PendingIntent.getService(this, 0, stopIntent, PendingIntent.FLAG_MUTABLE)
         }
 
         //Setup Notification-Channel

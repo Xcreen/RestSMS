@@ -31,19 +31,26 @@ class LoggingFragment : Fragment() {
             val logDirPath = requireContext().filesDir.absolutePath + File.separator + "logs"
             val logDir = File(logDirPath)
             val logFiles = logDir.listFiles()
-            if (logFiles != null) { //Add Log-files
-                for (logFile in logFiles){
+            if (logFiles != null) {
+                //Add Log-files
+                for (logFile in logFiles) {
                     if (logFile.isFile) {
                         //Read Line-Count
                         val lineNumberReader = LineNumberReader(FileReader(logFile.absolutePath))
-                        while(lineNumberReader.skip(Int.MAX_VALUE.toLong()) > 0)
-                        //Add Log-File
-                        dataModels.add(LoggingDataModel(logFile.name, logFile.absolutePath, lineNumberReader.lineNumber))
+                        while (lineNumberReader.skip(Int.MAX_VALUE.toLong()) > 0) {
+                            //Add Log-File
+                            dataModels.add(
+                                LoggingDataModel(
+                                    logFile.name,
+                                    logFile.absolutePath,
+                                    lineNumberReader.lineNumber
+                                )
+                            )
+                        }
                     }
                 }
             }
-        }
-        catch (ex: Exception) {
+        } catch (ex: Exception) {
             ex.printStackTrace()
         }
         customListViewAdapter = LoggingCustomListViewAdapter(dataModels, activity)
