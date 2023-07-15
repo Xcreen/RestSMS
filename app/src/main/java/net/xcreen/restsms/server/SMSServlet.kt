@@ -18,7 +18,16 @@ import javax.servlet.http.HttpServletResponse
 class SMSServlet(private val serverLogging: ServerLogging, private val authEnabled: Boolean , private val goodToken: String) : HttpServlet() {
     @Throws(IOException::class)
     override fun doPost(request: HttpServletRequest, response: HttpServletResponse) {
-        serverLogging.log("info", "SMS-Servlet [" + request.method + "] Request /send From: " + request.remoteAddr + "Used Token: " + request.getParameter("token"))
+        val message = request.getParameter("message")
+        val phoneno = request.getParameter("phoneno")
+        val token = request.getParameter("token")
+
+        var tokenLog = ""
+        if(token != null) {
+            tokenLog = " Token: $token"
+        }
+
+        serverLogging.log("info", "SMS-Servlet [" + request.method + "] Request /send From: " + request.remoteAddr + tokenLog)
         //Init Gson/PhoneNumberUtil
         val gsonBuilder = GsonBuilder()
         val gson = gsonBuilder.create()
@@ -26,9 +35,7 @@ class SMSServlet(private val serverLogging: ServerLogging, private val authEnabl
         //Set Response
         response.contentType = "application/json"
         response.characterEncoding = "utf-8"
-        val message = request.getParameter("message")
-        val phoneno = request.getParameter("phoneno")
-        val token = request.getParameter("token")
+
         //Check if authentication is enabled
         if (authEnabled) {
             if (token == null) {
