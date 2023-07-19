@@ -31,7 +31,7 @@ A response you get a JSON with a `success` and a `message` variable.
 
 #### Example Curl (x-www-form-urlencoded)
 message = "Hello World"  
-phoneno = "+4915100000000"
+phoneno = "+4915100000000"  
 token = "123"
 ```shell
 curl -X POST http://127.0.0.1:8080/send -H 'Cache-Control: no-cache' -H 'Content-Type: application/x-www-form-urlencoded' -d 'message=Hello%20World&phoneno=%2B4915100000000&token=123'
