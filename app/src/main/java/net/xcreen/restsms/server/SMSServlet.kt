@@ -15,77 +15,78 @@ import javax.servlet.http.HttpServletResponse
 
 @WebServlet
 @MultipartConfig
-class SMSServlet(private val serverLogging: ServerLogging, private val authEnabled: Boolean , private val goodToken: String) : HttpServlet() {
+class SMSServlet(private val serverLogging: ServerLogging, private val authEnabled: Boolean, private val goodToken: String) : HttpServlet() {
     @Throws(IOException::class)
     override fun doPost(request: HttpServletRequest, response: HttpServletResponse) {
         val message = request.getParameter("message")
-        val phoneno = request.getParameter("phoneno")
+        val phonenos = request.getParameter("phoneno")?.split(",")?.map { it.trim() }
         val token = request.getParameter("token")
 
         var tokenLog = ""
-        if(token != null) {
+        if (token != null) {
             tokenLog = " Token: $token"
         }
 
         serverLogging.log("info", "SMS-Servlet [" + request.method + "] Request /send From: " + request.remoteAddr + tokenLog)
-        //Init Gson/PhoneNumberUtil
+        // Init Gson/PhoneNumberUtil
         val gsonBuilder = GsonBuilder()
         val gson = gsonBuilder.create()
         val phoneUtil = PhoneNumberUtil.getInstance()
-        //Set Response
+        // Set Response
         response.contentType = "application/json"
         response.characterEncoding = "utf-8"
 
-        //Check if authentication is enabled
+        // Check if authentication is enabled
         if (authEnabled) {
             if (token == null) {
                 serverLogging.log("error", "No token")
                 response.writer.println(gson.toJson(SMSResponse(false, "Authentication token is missing!")))
                 return
-            }
-            else if (token != goodToken) {
-                serverLogging.log("error", "Supplied Token in wrong")
+            } else if (token != goodToken) {
+                serverLogging.log("error", "Supplied Token is wrong")
                 response.writer.println(gson.toJson(SMSResponse(false, "Authentication token is wrong!")))
                 return
             }
         }
-        //Check if post-parameters exists
-        if (message == null || phoneno == null) {
-            //Return Failing JSON
+        // Check if post-parameters exists
+        if (message == null || phonenos.isNullOrEmpty()) {
+            // Return Failing JSON
             serverLogging.log("error", "SMS-Servlet message and/or phoneno parameter is missing")
             response.writer.println(gson.toJson(SMSResponse(false, "message or phoneno parameter are missing!")))
             return
         }
-        //Check if message is valid
+        // Check if message is valid
         if (message.isEmpty()) {
             serverLogging.log("error", "SMS-Servlet Message is empty")
-            //Return Failing JSON
+            // Return Failing JSON
             response.writer.println(gson.toJson(SMSResponse(false, "message is empty!")))
             return
         }
-        //Check if phoneno is valid and parse it
-        val phoneNumber: PhoneNumber
-        try {
-            phoneNumber = phoneUtil.parse(phoneno, null)
-        }
-        catch (ex: Exception) {
-            serverLogging.log("error", "SMS-Servlet Failed to parse phoneno")
-            ex.printStackTrace()
-            //Return Failing JSON
-            response.writer.println(gson.toJson(SMSResponse(false, "Invalid phoneno (make sure you include the + with Country-Code)!")))
-            return
-        }
-        //Send SMS
-        val smsManager = if(Build.VERSION.SDK_INT >= 31) {
+
+        // Send SMS to each phone number
+        val smsManager = if (Build.VERSION.SDK_INT >= 31) {
             AppContext.appContext.getSystemService(SmsManager::class.java)
         } else {
             SmsManager.getDefault()
         }
-        val msgArray = smsManager.divideMessage(message)
-        smsManager.sendMultipartTextMessage(phoneUtil.format(phoneNumber, PhoneNumberUtil.PhoneNumberFormat.INTERNATIONAL), null, msgArray, null, null)
-        //Show Success message
-        response.writer.println(gson.toJson(SMSResponse(true, null)))
-        serverLogging.log("info", "SMS-Servlet Successful send!")
-    }
 
+        for (phoneno in phonenos) {
+            try {
+                val phoneNumber = phoneUtil.parse(phoneno, null)
+                val formattedNumber = phoneUtil.format(phoneNumber, PhoneNumberUtil.PhoneNumberFormat.INTERNATIONAL)
+                val msgArray = smsManager.divideMessage(message)
+                smsManager.sendMultipartTextMessage(formattedNumber, null, msgArray, null, null)
+                serverLogging.log("info", "SMS-Servlet Successfully sent to $formattedNumber")
+            } catch (ex: Exception) {
+                serverLogging.log("error", "SMS-Servlet Failed to parse or send SMS to $phoneno")
+                ex.printStackTrace()
+                response.writer.println(gson.toJson(SMSResponse(false, "Failed to send SMS to $phoneno")))
+                return
+            }
+        }
+
+        // Show Success message
+        response.writer.println(gson.toJson(SMSResponse(true, null)))
+        serverLogging.log("info", "SMS-Servlet Successfully sent to all numbers!")
+    }
 }
