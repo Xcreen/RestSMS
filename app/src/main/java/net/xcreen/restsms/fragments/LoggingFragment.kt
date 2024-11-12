@@ -20,7 +20,7 @@ import java.io.LineNumberReader
 import java.util.*
 
 class LoggingFragment : Fragment() {
-    var dataModels = ArrayList<LoggingDataModel>()
+    private var dataModels = ArrayList<LoggingDataModel>()
     private var customListViewAdapter: LoggingCustomListViewAdapter? = null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -33,7 +33,7 @@ class LoggingFragment : Fragment() {
             val logFiles = logDir.listFiles()
             if (logFiles != null) {
                 //Add Log-files
-                for (logFile in logFiles) {
+                for (logFile in logFiles.reversed()) {
                     if (logFile.isFile) {
                         //Read Line-Count
                         val lineNumberReader = LineNumberReader(FileReader(logFile.absolutePath))
