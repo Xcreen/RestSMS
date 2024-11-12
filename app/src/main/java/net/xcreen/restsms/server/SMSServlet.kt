@@ -4,7 +4,6 @@ import android.os.Build
 import android.telephony.SmsManager
 import com.google.gson.GsonBuilder
 import com.google.i18n.phonenumbers.PhoneNumberUtil
-import com.google.i18n.phonenumbers.Phonenumber.PhoneNumber
 import net.xcreen.restsms.AppContext
 import java.io.IOException
 import javax.servlet.annotation.MultipartConfig
@@ -64,9 +63,11 @@ class SMSServlet(private val serverLogging: ServerLogging, private val authEnabl
         }
 
         // Send SMS to each phone number
+        @Suppress("DEPRECATION")
         val smsManager = if (Build.VERSION.SDK_INT >= 31) {
             AppContext.appContext.getSystemService(SmsManager::class.java)
         } else {
+            // getDefault() is deprecated, but required for old android-versions
             SmsManager.getDefault()
         }
 
