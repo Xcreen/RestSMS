@@ -5,8 +5,8 @@ android {
     defaultConfig {
         applicationId "net.xcreen.restsms"
         minSdkVersion 23
-        compileSdk 33
-        targetSdkVersion 33
+        compileSdk 34
+        targetSdkVersion 34
         versionCode 10
         versionName "2.4.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
