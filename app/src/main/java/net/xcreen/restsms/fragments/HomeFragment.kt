@@ -25,6 +25,7 @@ class HomeFragment : Fragment() {
     private var toggleServerBtn: Button? = null
     private var appContext: AppContext? = null
     private val SMS_PERMISSION_REQUEST = 100
+    private val NOTIFICATION_PERMISSION_REQUEST = 101
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val rootView = inflater.inflate(R.layout.fragment_home, container, false)
@@ -41,6 +42,16 @@ class HomeFragment : Fragment() {
                 //Request Permission
                 ActivityCompat.requestPermissions(requireActivity(), arrayOf(Manifest.permission.SEND_SMS), SMS_PERMISSION_REQUEST)
                 return@setOnClickListener
+            }
+            // Check if Notification-Permission is grant
+            if (Build.VERSION.SDK_INT >= 33) {
+                if (ActivityCompat.checkSelfPermission(v.context, Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
+                    //Show Error Toast
+                    Toast.makeText(v.context, resources.getText(R.string.no_notification_permission), Toast.LENGTH_LONG).show()
+                    //Request Permission
+                    ActivityCompat.requestPermissions(requireActivity(), arrayOf(Manifest.permission.POST_NOTIFICATIONS), NOTIFICATION_PERMISSION_REQUEST)
+                    return@setOnClickListener
+                }
             }
             //Check if Device has a Sim-Card
             try {

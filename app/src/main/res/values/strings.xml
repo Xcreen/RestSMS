@@ -15,6 +15,7 @@
     <string name="server_failed_bindex">Server can not run on this port! (Bind-Exception)</string>
     <string name="invalid_sim">Sim-Card is missing or not ready to send sms!</string>
     <string name="no_sms_permission">SMS-Permission is required to run the server!</string>
+    <string name="no_notification_permission">Notification-Permission is required to run the server as a foreground-service!</string>
 
     <string name="notification_text">Server is running! On port: %1$d</string>
 
