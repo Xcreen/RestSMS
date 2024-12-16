@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.Toast
+import androidx.activity.OnBackPressedCallback
 import androidx.appcompat.app.ActionBarDrawerToggle
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
@@ -48,7 +49,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         val navigationView: NavigationView = findViewById(R.id.nav_view)
         navigationView.setNavigationItemSelectedListener(this)
 
-        //Dont replace Fragment, on orientation-change
+        //Don't replace Fragment, on orientation-change
         if (savedInstanceState == null) {
             //Set Home Fragment
             val fragmentTransaction = supportFragmentManager.beginTransaction()
@@ -59,21 +60,23 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 ex.printStackTrace()
             }
         }
+
+        onBackPressedDispatcher.addCallback(this, object: OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
+                    drawerLayout.closeDrawer(GravityCompat.START)
+                } else {
+                    isEnabled = false
+                    onBackPressedDispatcher.onBackPressed()
+                }
+            }
+        })
     }
 
     override fun onCreateOptionsMenu(optionsMenu: Menu): Boolean {
         this.optionsMenu = optionsMenu
         menuInflater.inflate(R.menu.options_menu, optionsMenu)
         return true
-    }
-
-    override fun onBackPressed() {
-        val drawerLayout: DrawerLayout = findViewById(R.id.drawer_layout)
-        if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
-            drawerLayout.closeDrawer(GravityCompat.START)
-        } else {
-            onBackPressedDispatcher.onBackPressed()
-        }
     }
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
