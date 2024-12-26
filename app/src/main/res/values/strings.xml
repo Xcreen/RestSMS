@@ -50,6 +50,7 @@
     <string name="setting_open_website">Open Browser after Server-Start</string>
     <string name="setting_disable_logging">Disable writing/creating log-files</string>
     <string name="setting_enable_auth">Enable authentication</string>
+    <string name="setting_enable_nsd">Enable Network Service Discovery</string>
     <string name="setting_save">Save</string>
     <string name="setting_invalid_port">Invalid Port!</string>
     <string name="setting_invalid_port_range">Port must be between 0 and 65535!</string>

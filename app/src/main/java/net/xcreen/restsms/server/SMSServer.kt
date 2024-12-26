@@ -12,6 +12,7 @@ import javax.servlet.MultipartConfigElement
 
 class SMSServer {
     var port = 8080
+    var startNSD = false
     var goodToken = ""
     var authEnabled = false
     private var jettyServer: Server? = null
@@ -75,8 +76,9 @@ class SMSServer {
                 serverLogging!!.log("error", "NSD Service unregistration failed: $errorCode")
             }
         }
-        nsdManager!!.registerService(nsdServiceInfo, NsdManager.PROTOCOL_DNS_SD, nsdRegistrationListener)
-
+        if(startNSD) {
+            nsdManager!!.registerService(nsdServiceInfo, NsdManager.PROTOCOL_DNS_SD, nsdRegistrationListener)
+        }
         //Start Jetty
         jettyServer!!.start()
         jettyServer!!.join()
