@@ -24,6 +24,7 @@ class SettingsFragment : Fragment() {
         val openBrowserCheckBox = rootView.findViewById<CheckBox>(R.id.settings_open_browser_checkbox)
         val disableLoggingCheckBox = rootView.findViewById<CheckBox>(R.id.settings_disable_logging_checkbox)
         val enableAuth = rootView.findViewById<CheckBox>(R.id.settings_enable_auth)
+        val enableNSD = rootView.findViewById<CheckBox>(R.id.settings_enable_nsd)
         val saveBtn = rootView.findViewById<Button>(R.id.settings_save_btn)
         saveBtn.setOnClickListener { v ->
             var saved = false
@@ -58,6 +59,9 @@ class SettingsFragment : Fragment() {
             //Save Enable authentication
             editor.putBoolean("enable_auth", enableAuth.isChecked)
             editor.apply()
+            //Save Enable NSD
+            editor.putBoolean("enable_nsd", enableNSD.isChecked)
+            editor.apply()
             if (saved) {
                 Toast.makeText(v.context, resources.getText(R.string.setting_saved), Toast.LENGTH_SHORT).show()
             }
@@ -77,6 +81,10 @@ class SettingsFragment : Fragment() {
         //Set current "Disable authentication"-Option
         if (sharedPref.getBoolean("enable_auth", false)) {
             enableAuth.isChecked = true
+        }
+        //Set current "NSD"-Option
+        if (sharedPref.getBoolean("enable_nsd", false)) {
+            enableNSD.isChecked = true
         }
         return rootView
     }

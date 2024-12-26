@@ -54,7 +54,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             //Set Home Fragment
             val fragmentTransaction = supportFragmentManager.beginTransaction()
             try {
-                val homeFragment: Fragment = HomeFragment::class.java.newInstance()
+                val homeFragment: Fragment = HomeFragment::class.java.getDeclaredConstructor().newInstance()
                 fragmentTransaction.replace(R.id.main_framelayout, homeFragment).commit()
             } catch (ex: Exception) {
                 ex.printStackTrace()

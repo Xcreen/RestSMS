@@ -58,6 +58,8 @@ class ServerService : Service() {
         val sharedPref = PreferenceManager.getDefaultSharedPreferences(this)
         val serverPort = sharedPref.getInt("server_port", 8080)
         appContext?.smsServer?.port = serverPort
+        //Set NSD
+        appContext?.smsServer?.startNSD = sharedPref.getBoolean("enable_nsd", false)
         //Set Auth params
         val goodToken = sharedPref.getString("server_token", "") ?: ""
         val authEnabled = sharedPref.getBoolean("enable_auth", false)

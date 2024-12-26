@@ -1,5 +1,10 @@
 package net.xcreen.restsms.server
 
+import android.content.Context
+import android.net.nsd.NsdManager
+import android.net.nsd.NsdServiceInfo
+import android.util.Log
+import net.xcreen.restsms.AppContext
 import org.eclipse.jetty.server.Server
 import org.eclipse.jetty.servlet.ServletContextHandler
 import org.eclipse.jetty.servlet.ServletHolder
@@ -7,10 +12,13 @@ import javax.servlet.MultipartConfigElement
 
 class SMSServer {
     var port = 8080
+    var startNSD = false
     var goodToken = ""
     var authEnabled = false
     private var jettyServer: Server? = null
-
+    private var nsdManager: NsdManager? = null
+    private var nsdRegistrationListener: NsdManager.RegistrationListener? = null
+    private val TAG = "SMSServer"
     /**
      * Get Server-Logger
      * @return serverLogging - ServerLogging-Object
@@ -38,6 +46,39 @@ class SMSServer {
         servletContextHandler.addServlet(smsWelcomeServletHolder, "/")
         jettyServer!!.handler = servletContextHandler
 
+        //Start NSD
+        val nsdServiceInfo = NsdServiceInfo()
+        nsdServiceInfo.serviceName = "RestSMS"
+        nsdServiceInfo.serviceType = "_http._tcp."
+        nsdServiceInfo.port = port
+
+        nsdManager = AppContext.appContext.getSystemService(Context.NSD_SERVICE) as NsdManager
+
+        nsdRegistrationListener = object : NsdManager.RegistrationListener {
+            override fun onServiceRegistered(serviceInfo: NsdServiceInfo) {
+                val registeredName = serviceInfo.serviceName
+                Log.i(TAG, "NSD Service registered: $registeredName")
+                serverLogging!!.log("info", "NSD Service registered: $registeredName")
+            }
+
+            override fun onRegistrationFailed(serviceInfo: NsdServiceInfo, errorCode: Int) {
+                Log.e(TAG, "NSD Service registration failed: $errorCode")
+                serverLogging!!.log("error", "NSD Service registration failed: $errorCode")
+            }
+
+            override fun onServiceUnregistered(serviceInfo: NsdServiceInfo) {
+                Log.i(TAG, "NSD Service unregistered.")
+                serverLogging!!.log("info", "NSD Service unregistered.")
+            }
+
+            override fun onUnregistrationFailed(serviceInfo: NsdServiceInfo, errorCode: Int) {
+                Log.e(TAG, "NSD Service unregistration failed: $errorCode")
+                serverLogging!!.log("error", "NSD Service unregistration failed: $errorCode")
+            }
+        }
+        if(startNSD) {
+            nsdManager!!.registerService(nsdServiceInfo, NsdManager.PROTOCOL_DNS_SD, nsdRegistrationListener)
+        }
         //Start Jetty
         jettyServer!!.start()
         jettyServer!!.join()
@@ -52,6 +93,9 @@ class SMSServer {
         if (!isStopping) {
             serverLogging!!.log("info", "Stopping Server...")
             jettyServer!!.stop()
+        }
+        nsdRegistrationListener?.let {
+            nsdManager?.unregisterService(it)
         }
     }
 

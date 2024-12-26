@@ -107,6 +107,18 @@
             android:textColor="@color/colorWhite"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/settings_open_browser_checkbox" />
+
+        <CheckBox
+            android:id="@+id/settings_enable_nsd"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="8dp"
+            android:text="@string/setting_enable_nsd"
+            android:textAppearance="@style/TextAppearance.MaterialComponents.Subtitle1"
+            android:textColor="@color/colorWhite"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/settings_token_edittext" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 </FrameLayout>
